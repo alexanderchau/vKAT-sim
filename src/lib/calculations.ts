@@ -199,7 +199,7 @@ export const SCENARIO_PRESETS: ScenarioPreset[] = [
     inputs: {
       stakeRate: 0.30,
       annualVolume: 10_000_000_000,
-      bribesPerEpoch: 100_000,
+      bribesPerEpoch: 250_000,
     },
   },
   {
@@ -208,7 +208,7 @@ export const SCENARIO_PRESETS: ScenarioPreset[] = [
     inputs: {
       stakeRate: 0.20,
       annualVolume: 25_000_000_000,
-      bribesPerEpoch: 250_000,
+      bribesPerEpoch: 500_000,
     },
   },
 ];
