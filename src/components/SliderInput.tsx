@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { formatNumber, formatCurrency, formatPercent } from '../lib/calculations';
 
 interface SliderInputProps {
@@ -21,6 +22,8 @@ export function SliderInput({
   format = 'number',
   tooltip,
 }: SliderInputProps) {
+  const [showTooltip, setShowTooltip] = useState(false);
+
   const formatValue = (val: number): string => {
     switch (format) {
       case 'currency':
@@ -47,26 +50,45 @@ export function SliderInput({
     }
   };
 
+  const handleTooltipToggle = () => {
+    setShowTooltip(!showTooltip);
+  };
+
+  const handleTooltipBlur = () => {
+    setShowTooltip(false);
+  };
+
   return (
     <div className="mb-5 last:mb-0">
       <div className="flex justify-between items-center mb-2">
         <label className="text-sm font-medium flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
           {label}
           {tooltip && (
-            <span className="group relative">
-              <span
-                className="cursor-help text-xs w-4 h-4 inline-flex items-center justify-center rounded-full"
-                style={{ background: 'var(--bg-elevated)', color: 'var(--text-muted)', fontSize: '10px' }}
+            <span className="relative">
+              <button
+                type="button"
+                onClick={handleTooltipToggle}
+                onBlur={handleTooltipBlur}
+                className="text-xs w-4 h-4 inline-flex items-center justify-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1"
+                style={{
+                  background: 'var(--bg-elevated)',
+                  color: 'var(--text-muted)',
+                  fontSize: '10px',
+                  cursor: 'help'
+                }}
+                aria-label={`Info: ${tooltip}`}
               >
                 ?
-              </span>
+              </button>
               <span
-                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none"
+                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 text-xs rounded-md transition-opacity whitespace-nowrap z-20"
                 style={{
                   background: 'var(--bg-elevated)',
                   color: 'var(--text-primary)',
                   border: '1px solid var(--border-color)',
-                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)'
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
+                  opacity: showTooltip ? 1 : 0,
+                  pointerEvents: showTooltip ? 'auto' : 'none',
                 }}
               >
                 {tooltip}
