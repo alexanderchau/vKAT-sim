@@ -87,7 +87,7 @@ export function SliderInput({
   return (
     <div className="mb-6 last:mb-0">
       <div className="flex justify-between items-center mb-2">
-        <label className="text-sm font-medium flex items-center gap-2" style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>
+        <label className="text-sm font-medium flex items-center gap-2" style={{ color: 'var(--text-secondary)', fontSize: '15px' }}>
           {label}
           {tooltip && (
             <span className="relative" ref={tooltipRef}>

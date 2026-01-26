@@ -3,7 +3,6 @@ import {
   SliderInput,
   OutputDisplay,
   ScenarioPresets,
-  SensitivityCharts,
   Disclaimers,
 } from './components';
 import {
@@ -191,8 +190,6 @@ function App() {
               userVkat={inputs.userVkat}
               katPrice={inputs.katPrice}
             />
-
-            <SensitivityCharts inputs={inputs} outputs={outputs} />
 
             <Disclaimers />
           </div>
