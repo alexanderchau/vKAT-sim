@@ -24,13 +24,13 @@ export function SliderInput({
   const formatValue = (val: number): string => {
     switch (format) {
       case 'currency':
-        return formatCurrency(val, 0);
+        return formatCurrency(val, 2);
       case 'percent':
-        return formatPercent(val * 100, 0);
+        return formatPercent(val * 100, 1);
       case 'volume':
-        return formatCurrency(val, 1);
+        return formatCurrency(val, 2);
       default:
-        return formatNumber(val);
+        return formatNumber(val, 0);
     }
   };
 
