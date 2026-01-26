@@ -29,7 +29,7 @@ export const INPUT_CONSTRAINTS = {
   circulatingSupply: { min: 1_000_000_000, max: 10_000_000_000, step: 100_000_000 },
   stakeRate: { min: 0.10, max: 0.70, step: 0.01 },
   annualVolume: { min: 6_000_000_000, max: 100_000_000_000, step: 100_000_000 },
-  bribesPerEpoch: { min: 100_000, max: 2_000_000, step: 10_000 },
+  bribesPerEpoch: { min: 100_000, max: 1_000_000, step: 10_000 },
   katPrice: { min: 0.01, max: 1.00, step: 0.01 },
   churnRate: { min: 0.05, max: 0.30, step: 0.01 },
   avgExitFee: { min: 0.025, max: 0.25, step: 0.005 },
