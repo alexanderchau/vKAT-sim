@@ -118,7 +118,7 @@ function App() {
                 value={inputs.circulatingSupply}
                 onChange={(v) => updateInput('circulatingSupply', v)}
                 {...INPUT_CONSTRAINTS.circulatingSupply}
-                format="volume"
+                format="token"
                 tooltip="Total KAT tokens currently in circulation"
               />
               <SliderInput
