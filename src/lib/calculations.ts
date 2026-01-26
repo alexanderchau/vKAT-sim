@@ -188,7 +188,6 @@ export const SCENARIO_PRESETS: ScenarioPreset[] = [
     name: 'Bear',
     description: 'Conservative assumptions',
     inputs: {
-      stakeRate: 0.50,
       annualVolume: 6_000_000_000,
       bribesPerEpoch: 100_000,
     },
@@ -197,7 +196,6 @@ export const SCENARIO_PRESETS: ScenarioPreset[] = [
     name: 'Base',
     description: 'Baseline projection',
     inputs: {
-      stakeRate: 0.30,
       annualVolume: 10_000_000_000,
       bribesPerEpoch: 250_000,
     },
@@ -206,7 +204,6 @@ export const SCENARIO_PRESETS: ScenarioPreset[] = [
     name: 'Bull',
     description: 'Optimistic scenario',
     inputs: {
-      stakeRate: 0.20,
       annualVolume: 25_000_000_000,
       bribesPerEpoch: 500_000,
     },
