@@ -250,24 +250,6 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
         </div>
       </div>
 
-      {/* Break-even Analysis */}
-      <div className="notice-panel">
-        <h3 className="text-sm font-semibold mb-2" style={{ color: 'var(--warning)' }}>Exit Cost Recovery Analysis</h3>
-        <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-          Assuming immediate exit at the maximum 25% fee, the estimated time to recover exit costs through staking rewards is{' '}
-          <span
-            className="font-mono font-semibold cursor-help"
-            style={{ color: 'var(--text-primary)' }}
-            title={`Exit cost: ${formatCurrency(userPositionValue * 0.25)} | Daily yield: ${formatCurrency(dailyYield)}`}
-          >
-            {outputs.breakEvenDays === Infinity ? '—' : formatNumber(outputs.breakEvenDays)} days
-          </span>.
-        </p>
-        <p className="text-xs mt-3" style={{ color: 'var(--text-muted)' }}>
-          The {CONSTANTS.COOLDOWN_DAYS}-day cooldown period reduces the exit fee to 2.5%, lowering break-even to approximately {Math.ceil(outputs.breakEvenDays * 0.1)} days.
-        </p>
-      </div>
-
       {/* Yield per vKAT */}
       <div className="info-panel">
         <div className="flex justify-between items-center">
