@@ -13,8 +13,8 @@
 
   /* Text colors - high readability */
   --text-primary: #e8eaed;
-  --text-secondary: #9aa0ab;
-  --text-muted: #6b7280;
+  --text-secondary: #a8adb8;
+  --text-muted: #7a818c;
   --text-dim: #4b5563;
 
   /* Professional accent - muted blue (trustworthy, institutional) */
@@ -79,7 +79,8 @@ body {
   min-width: 320px;
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 /* Typography utilities */
@@ -202,7 +203,7 @@ input[type="number"]::-webkit-inner-spin-button {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: var(--space-lg);
+  padding: var(--space-xl);
 }
 
 .card-elevated {
@@ -238,26 +239,26 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* Section titles */
 .section-title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--text-primary);
   letter-spacing: -0.01em;
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-lg);
 }
 
 /* Stat cards */
 .stat-label {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 4px;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
 }
 
 .stat-value {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   color: var(--text-primary);
   letter-spacing: -0.02em;
@@ -265,7 +266,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .stat-value-lg {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 40px;
+  font-size: 42px;
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.1;
