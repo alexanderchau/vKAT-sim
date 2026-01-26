@@ -30,13 +30,13 @@ interface SensitivityChartsProps {
 type ChartTab = 'stake' | 'bribes' | 'volume' | 'composition';
 
 const COLORS = {
-  fees: '#6366f1',
-  bribes: '#10b981',
-  exitFees: '#f59e0b',
-  line: '#8b5cf6',
-  reference: '#ef4444',
-  grid: '#2a2a4a',
-  axis: '#6b6b8a',
+  fees: '#4a90d9',
+  bribes: '#34a77f',
+  exitFees: '#d4a034',
+  line: '#4a90d9',
+  reference: '#d9534f',
+  grid: '#252a35',
+  axis: '#6b7280',
 };
 
 export function SensitivityCharts({ inputs, outputs }: SensitivityChartsProps) {
@@ -55,28 +55,29 @@ export function SensitivityCharts({ inputs, outputs }: SensitivityChartsProps) {
   ];
 
   const tooltipStyle = {
-    backgroundColor: '#1a1a2e',
-    border: '1px solid #2a2a4a',
-    borderRadius: '8px',
+    backgroundColor: '#181b22',
+    border: '1px solid #2a2f3a',
+    borderRadius: '6px',
     fontSize: '12px',
-    color: '#ffffff',
+    color: '#e8eaed',
+    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
   };
 
   return (
-    <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
-      <h3 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Sensitivity Analysis</h3>
+    <div className="card">
+      <h3 className="section-title">Sensitivity Analysis</h3>
 
       {/* Tab Navigation */}
-      <div className="flex gap-1 p-1 rounded-lg mb-4 overflow-x-auto" style={{ background: 'var(--bg-secondary)' }}>
+      <div className="flex gap-1 p-1 rounded-md mb-4 overflow-x-auto" style={{ background: 'var(--bg-secondary)' }}>
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className="flex-1 px-3 py-2 text-xs font-medium rounded-md transition-all whitespace-nowrap"
+            className="flex-1 px-3 py-2 text-xs font-medium rounded transition-all whitespace-nowrap"
             style={{
               background: activeTab === tab.id ? 'var(--bg-card)' : 'transparent',
               color: activeTab === tab.id ? 'var(--text-primary)' : 'var(--text-muted)',
-              boxShadow: activeTab === tab.id ? '0 2px 4px rgba(0,0,0,0.2)' : 'none',
+              border: activeTab === tab.id ? '1px solid var(--border-subtle)' : '1px solid transparent',
             }}
           >
             {tab.label}

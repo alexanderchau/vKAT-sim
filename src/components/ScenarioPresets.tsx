@@ -8,33 +8,33 @@ interface ScenarioPresetsProps {
 
 const scenarioStyles: Record<string, { bg: string; border: string; text: string; activeBg: string; activeBorder: string }> = {
   Bear: {
-    bg: 'rgba(239, 68, 68, 0.1)',
-    border: 'rgba(239, 68, 68, 0.2)',
-    text: '#ef4444',
-    activeBg: 'rgba(239, 68, 68, 0.2)',
-    activeBorder: '#ef4444',
+    bg: 'rgba(217, 83, 79, 0.08)',
+    border: 'rgba(217, 83, 79, 0.15)',
+    text: '#d9534f',
+    activeBg: 'rgba(217, 83, 79, 0.12)',
+    activeBorder: 'rgba(217, 83, 79, 0.4)',
   },
   Base: {
-    bg: 'rgba(59, 130, 246, 0.1)',
-    border: 'rgba(59, 130, 246, 0.2)',
-    text: '#3b82f6',
-    activeBg: 'rgba(59, 130, 246, 0.2)',
-    activeBorder: '#3b82f6',
+    bg: 'rgba(74, 144, 217, 0.08)',
+    border: 'rgba(74, 144, 217, 0.15)',
+    text: '#4a90d9',
+    activeBg: 'rgba(74, 144, 217, 0.12)',
+    activeBorder: 'rgba(74, 144, 217, 0.4)',
   },
   Bull: {
-    bg: 'rgba(16, 185, 129, 0.1)',
-    border: 'rgba(16, 185, 129, 0.2)',
-    text: '#10b981',
-    activeBg: 'rgba(16, 185, 129, 0.2)',
-    activeBorder: '#10b981',
+    bg: 'rgba(52, 167, 127, 0.08)',
+    border: 'rgba(52, 167, 127, 0.15)',
+    text: '#34a77f',
+    activeBg: 'rgba(52, 167, 127, 0.12)',
+    activeBorder: 'rgba(52, 167, 127, 0.4)',
   },
 };
 
 export function ScenarioPresets({ onSelect, activeScenario }: ScenarioPresetsProps) {
   return (
-    <div className="mb-2">
-      <h3 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>Market Scenarios</h3>
-      <div className="grid grid-cols-3 gap-3">
+    <div>
+      <h3 className="section-title">Market Scenarios</h3>
+      <div className="grid grid-cols-3 gap-2">
         {SCENARIO_PRESETS.map((scenario) => {
           const styles = scenarioStyles[scenario.name];
           const isActive = activeScenario === scenario.name;
@@ -43,11 +43,10 @@ export function ScenarioPresets({ onSelect, activeScenario }: ScenarioPresetsPro
             <button
               key={scenario.name}
               onClick={() => onSelect(scenario.inputs)}
-              className="p-3 rounded-lg transition-all cursor-pointer hover:scale-105"
+              className="p-3 rounded-md transition-all cursor-pointer"
               style={{
                 background: isActive ? styles.activeBg : styles.bg,
                 border: `1px solid ${isActive ? styles.activeBorder : styles.border}`,
-                boxShadow: isActive ? `0 0 15px ${styles.border}` : 'none',
               }}
             >
               <div className="text-sm font-semibold" style={{ color: styles.text }}>

@@ -42,23 +42,20 @@ function App() {
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
       {/* Header */}
-      <header className="border-b" style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <header style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border-subtle)' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold gradient-text">vKAT Staking APY Simulator</h1>
-              <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
-                Calculate expected yields for voting in the Katana Armory
+              <h1 className="text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>
+                vKAT Staking APY Simulator
+              </h1>
+              <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
+                Model expected yields for staking in the Katana Armory
               </p>
             </div>
             <button
               onClick={handleReset}
-              className="px-4 py-2 text-sm font-medium rounded-lg transition-all hover:scale-105"
-              style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border-color)',
-                color: 'var(--text-secondary)',
-              }}
+              className="btn text-sm"
             >
               Reset to Defaults
             </button>
@@ -68,17 +65,17 @@ function App() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - Inputs */}
-          <div className="lg:col-span-1 space-y-6">
+          <div className="lg:col-span-1 space-y-5">
             {/* Scenario Presets */}
-            <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
+            <div className="card">
               <ScenarioPresets onSelect={handleScenarioSelect} activeScenario={activeScenario} />
             </div>
 
             {/* Your Position */}
-            <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
-              <h3 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Your Position</h3>
+            <div className="card">
+              <h3 className="section-title">Your Position</h3>
               <SliderInput
                 label="Your vKAT Amount"
                 value={inputs.userVkat}
@@ -98,8 +95,8 @@ function App() {
             </div>
 
             {/* Market Parameters */}
-            <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
-              <h3 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Market Parameters</h3>
+            <div className="card">
+              <h3 className="section-title">Market Parameters</h3>
               <SliderInput
                 label="Circulating Supply"
                 value={inputs.circulatingSupply}
@@ -135,8 +132,8 @@ function App() {
             </div>
 
             {/* Advanced Parameters */}
-            <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
-              <h3 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Advanced Parameters</h3>
+            <div className="card">
+              <h3 className="section-title">Advanced Parameters</h3>
               <SliderInput
                 label="Annual Churn Rate"
                 value={inputs.churnRate}
@@ -156,21 +153,23 @@ function App() {
             </div>
 
             {/* Fixed Parameters Info */}
-            <div className="rounded-xl p-4" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-color)' }}>
-              <h4 className="text-xs font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>Fixed Parameters</h4>
-              <div className="grid grid-cols-2 gap-2 text-xs" style={{ color: 'var(--text-muted)' }}>
+            <div className="info-panel">
+              <h4 className="text-xs font-medium mb-3" style={{ color: 'var(--text-secondary)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                Fixed Parameters
+              </h4>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs font-mono" style={{ color: 'var(--text-muted)' }}>
                 <div>Protocol Fee: 0.05%</div>
                 <div>LP Fee: 0.25%</div>
-                <div>Epoch Duration: {CONSTANTS.EPOCH_DURATION_DAYS} days</div>
+                <div>Epoch Duration: {CONSTANTS.EPOCH_DURATION_DAYS}d</div>
                 <div>Epochs/Year: {CONSTANTS.EPOCHS_PER_YEAR}</div>
-                <div>Cooldown: {CONSTANTS.COOLDOWN_DAYS} days</div>
+                <div>Cooldown: {CONSTANTS.COOLDOWN_DAYS}d</div>
                 <div>Max Exit Fee: {CONSTANTS.MAX_EXIT_FEE * 100}%</div>
               </div>
             </div>
           </div>
 
           {/* Right Column - Outputs */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-5">
             <OutputDisplay
               outputs={outputs}
               userVkat={inputs.userVkat}
@@ -185,15 +184,14 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t mt-12" style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-              vKAT Staking APY Simulator | Katana Tokenomics Tool
+      <footer style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-subtle)', marginTop: '48px' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
+              vKAT Staking APY Simulator
             </div>
             <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
-              Model assumptions based on confirmed vKAT Armory mechanics.
-              Actual returns may vary.
+              Model assumptions based on confirmed vKAT Armory mechanics. Projections are illustrative only.
             </div>
           </div>
         </div>

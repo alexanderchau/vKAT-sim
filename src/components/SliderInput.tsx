@@ -48,16 +48,26 @@ export function SliderInput({
   };
 
   return (
-    <div className="mb-4">
-      <div className="flex justify-between items-center mb-1">
-        <label className="text-sm font-medium flex items-center gap-1" style={{ color: 'var(--text-secondary)' }}>
+    <div className="mb-5 last:mb-0">
+      <div className="flex justify-between items-center mb-2">
+        <label className="text-sm font-medium flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
           {label}
           {tooltip && (
             <span className="group relative">
-              <span className="cursor-help text-xs" style={{ color: 'var(--text-muted)' }}>(?)</span>
               <span
-                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10"
-                style={{ background: 'var(--accent-primary)', color: 'white' }}
+                className="cursor-help text-xs w-4 h-4 inline-flex items-center justify-center rounded-full"
+                style={{ background: 'var(--bg-elevated)', color: 'var(--text-muted)', fontSize: '10px' }}
+              >
+                ?
+              </span>
+              <span
+                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none"
+                style={{
+                  background: 'var(--bg-elevated)',
+                  color: 'var(--text-primary)',
+                  border: '1px solid var(--border-color)',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)'
+                }}
               >
                 {tooltip}
               </span>
@@ -68,7 +78,7 @@ export function SliderInput({
           type="text"
           value={formatValue(value)}
           onChange={handleInputChange}
-          className="w-28 text-right text-sm font-mono px-2 py-1 rounded"
+          className="w-28 text-right text-sm font-mono px-2 py-1.5 rounded-md"
           style={{
             background: 'var(--bg-secondary)',
             border: '1px solid var(--border-color)',
@@ -85,7 +95,7 @@ export function SliderInput({
         onChange={(e) => onChange(parseFloat(e.target.value))}
         className="w-full"
       />
-      <div className="flex justify-between text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+      <div className="flex justify-between text-xs mt-1.5 font-mono" style={{ color: 'var(--text-muted)' }}>
         <span>{formatValue(min)}</span>
         <span>{formatValue(max)}</span>
       </div>
