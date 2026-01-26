@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { formatNumber, formatCurrency, formatPercent } from '../lib/calculations';
 
 interface SliderInputProps {
@@ -23,6 +23,7 @@ export function SliderInput({
   tooltip,
 }: SliderInputProps) {
   const [showTooltip, setShowTooltip] = useState(false);
+  const tooltipRef = useRef<HTMLSpanElement>(null);
 
   const formatValue = (val: number): string => {
     switch (format) {
@@ -50,13 +51,29 @@ export function SliderInput({
     }
   };
 
-  const handleTooltipToggle = () => {
+  const handleTooltipToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setShowTooltip(!showTooltip);
   };
 
-  const handleTooltipBlur = () => {
-    setShowTooltip(false);
-  };
+  // Close tooltip when clicking outside
+  useEffect(() => {
+    if (!showTooltip) return;
+
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      if (tooltipRef.current && !tooltipRef.current.contains(e.target as Node)) {
+        setShowTooltip(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [showTooltip]);
 
   return (
     <div className="mb-5 last:mb-0">
@@ -64,11 +81,10 @@ export function SliderInput({
         <label className="text-sm font-medium flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
           {label}
           {tooltip && (
-            <span className="relative">
+            <span className="relative" ref={tooltipRef}>
               <button
                 type="button"
                 onClick={handleTooltipToggle}
-                onBlur={handleTooltipBlur}
                 className="text-xs w-4 h-4 inline-flex items-center justify-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1"
                 style={{
                   background: 'var(--bg-elevated)',
