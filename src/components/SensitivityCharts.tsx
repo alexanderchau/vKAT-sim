@@ -31,10 +31,12 @@ type ChartTab = 'stake' | 'bribes' | 'volume' | 'composition';
 
 const COLORS = {
   fees: '#6366f1',
-  bribes: '#22c55e',
+  bribes: '#10b981',
   exitFees: '#f59e0b',
   line: '#8b5cf6',
   reference: '#ef4444',
+  grid: '#2a2a4a',
+  axis: '#6b6b8a',
 };
 
 export function SensitivityCharts({ inputs, outputs }: SensitivityChartsProps) {
@@ -52,23 +54,30 @@ export function SensitivityCharts({ inputs, outputs }: SensitivityChartsProps) {
     { id: 'composition', label: 'APY Composition' },
   ];
 
+  const tooltipStyle = {
+    backgroundColor: '#1a1a2e',
+    border: '1px solid #2a2a4a',
+    borderRadius: '8px',
+    fontSize: '12px',
+    color: '#ffffff',
+  };
+
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5">
-      <h3 className="text-sm font-semibold text-gray-700 mb-4">Sensitivity Analysis</h3>
+    <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
+      <h3 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Sensitivity Analysis</h3>
 
       {/* Tab Navigation */}
-      <div className="flex gap-1 p-1 bg-gray-100 rounded-lg mb-4 overflow-x-auto">
+      <div className="flex gap-1 p-1 rounded-lg mb-4 overflow-x-auto" style={{ background: 'var(--bg-secondary)' }}>
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`
-              flex-1 px-3 py-2 text-xs font-medium rounded-md transition-all whitespace-nowrap
-              ${activeTab === tab.id
-                ? 'bg-white text-gray-800 shadow-sm'
-                : 'text-gray-600 hover:text-gray-800'
-              }
-            `}
+            className="flex-1 px-3 py-2 text-xs font-medium rounded-md transition-all whitespace-nowrap"
+            style={{
+              background: activeTab === tab.id ? 'var(--bg-card)' : 'transparent',
+              color: activeTab === tab.id ? 'var(--text-primary)' : 'var(--text-muted)',
+              boxShadow: activeTab === tab.id ? '0 2px 4px rgba(0,0,0,0.2)' : 'none',
+            }}
           >
             {tab.label}
           </button>
@@ -80,27 +89,22 @@ export function SensitivityCharts({ inputs, outputs }: SensitivityChartsProps) {
         {activeTab === 'stake' && (
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={stakeRateData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <CartesianGrid strokeDasharray="3 3" stroke={COLORS.grid} />
               <XAxis
                 dataKey="stakeRate"
-                tick={{ fontSize: 11 }}
+                tick={{ fontSize: 11, fill: COLORS.axis }}
                 tickFormatter={(v) => `${v}%`}
-                stroke="#9ca3af"
+                stroke={COLORS.grid}
               />
               <YAxis
-                tick={{ fontSize: 11 }}
+                tick={{ fontSize: 11, fill: COLORS.axis }}
                 tickFormatter={(v) => `${v.toFixed(0)}%`}
-                stroke="#9ca3af"
+                stroke={COLORS.grid}
               />
               <Tooltip
                 formatter={(value) => [formatPercent(Number(value)), 'APY']}
                 labelFormatter={(label) => `Stake Rate: ${label}%`}
-                contentStyle={{
-                  backgroundColor: '#fff',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '8px',
-                  fontSize: '12px',
-                }}
+                contentStyle={tooltipStyle}
               />
               <ReferenceLine
                 x={inputs.stakeRate * 100}
@@ -123,27 +127,22 @@ export function SensitivityCharts({ inputs, outputs }: SensitivityChartsProps) {
         {activeTab === 'bribes' && (
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={bribeData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <CartesianGrid strokeDasharray="3 3" stroke={COLORS.grid} />
               <XAxis
                 dataKey="bribesPerEpoch"
-                tick={{ fontSize: 11 }}
+                tick={{ fontSize: 11, fill: COLORS.axis }}
                 tickFormatter={(v) => formatCurrency(v, 0)}
-                stroke="#9ca3af"
+                stroke={COLORS.grid}
               />
               <YAxis
-                tick={{ fontSize: 11 }}
+                tick={{ fontSize: 11, fill: COLORS.axis }}
                 tickFormatter={(v) => `${v.toFixed(0)}%`}
-                stroke="#9ca3af"
+                stroke={COLORS.grid}
               />
               <Tooltip
                 formatter={(value) => [formatPercent(Number(value)), 'APY']}
                 labelFormatter={(label) => `Bribes/Epoch: ${formatCurrency(Number(label))}`}
-                contentStyle={{
-                  backgroundColor: '#fff',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '8px',
-                  fontSize: '12px',
-                }}
+                contentStyle={tooltipStyle}
               />
               <ReferenceLine
                 x={inputs.bribesPerEpoch}
@@ -165,27 +164,22 @@ export function SensitivityCharts({ inputs, outputs }: SensitivityChartsProps) {
         {activeTab === 'volume' && (
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={volumeData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <CartesianGrid strokeDasharray="3 3" stroke={COLORS.grid} />
               <XAxis
                 dataKey="annualVolume"
-                tick={{ fontSize: 11 }}
+                tick={{ fontSize: 11, fill: COLORS.axis }}
                 tickFormatter={(v) => `$${v}B`}
-                stroke="#9ca3af"
+                stroke={COLORS.grid}
               />
               <YAxis
-                tick={{ fontSize: 11 }}
+                tick={{ fontSize: 11, fill: COLORS.axis }}
                 tickFormatter={(v) => `${v.toFixed(0)}%`}
-                stroke="#9ca3af"
+                stroke={COLORS.grid}
               />
               <Tooltip
                 formatter={(value) => [formatPercent(Number(value)), 'APY']}
                 labelFormatter={(label) => `Annual Volume: $${label}B`}
-                contentStyle={{
-                  backgroundColor: '#fff',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '8px',
-                  fontSize: '12px',
-                }}
+                contentStyle={tooltipStyle}
               />
               <ReferenceLine
                 x={inputs.annualVolume / 1_000_000_000}
@@ -211,29 +205,24 @@ export function SensitivityCharts({ inputs, outputs }: SensitivityChartsProps) {
               layout="vertical"
               margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
             >
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <CartesianGrid strokeDasharray="3 3" stroke={COLORS.grid} />
               <XAxis
                 type="number"
-                tick={{ fontSize: 11 }}
+                tick={{ fontSize: 11, fill: COLORS.axis }}
                 tickFormatter={(v) => `${v.toFixed(1)}%`}
-                stroke="#9ca3af"
+                stroke={COLORS.grid}
               />
               <YAxis type="category" dataKey="name" tick={false} width={0} />
               <Tooltip
                 formatter={(value, name) => [formatPercent(Number(value)), String(name)]}
-                contentStyle={{
-                  backgroundColor: '#fff',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '8px',
-                  fontSize: '12px',
-                }}
+                contentStyle={tooltipStyle}
               />
               <Legend
                 verticalAlign="bottom"
                 height={36}
                 iconType="circle"
                 iconSize={8}
-                wrapperStyle={{ fontSize: '11px' }}
+                wrapperStyle={{ fontSize: '11px', color: 'var(--text-secondary)' }}
               />
               <Bar dataKey="Trading Fees" stackId="a" fill={COLORS.fees} />
               <Bar dataKey="Bribes" stackId="a" fill={COLORS.bribes} />
@@ -244,7 +233,7 @@ export function SensitivityCharts({ inputs, outputs }: SensitivityChartsProps) {
       </div>
 
       {/* Chart Description */}
-      <div className="mt-4 text-xs text-gray-500">
+      <div className="mt-4 text-xs" style={{ color: 'var(--text-muted)' }}>
         {activeTab === 'stake' && (
           <p>Shows the inverse relationship between participation rate and APY. Lower stake rates mean higher yields for stakers.</p>
         )}

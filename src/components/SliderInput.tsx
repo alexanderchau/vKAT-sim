@@ -50,12 +50,15 @@ export function SliderInput({
   return (
     <div className="mb-4">
       <div className="flex justify-between items-center mb-1">
-        <label className="text-sm font-medium text-gray-700 flex items-center gap-1">
+        <label className="text-sm font-medium flex items-center gap-1" style={{ color: 'var(--text-secondary)' }}>
           {label}
           {tooltip && (
             <span className="group relative">
-              <span className="text-gray-400 cursor-help text-xs">(?)</span>
-              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+              <span className="cursor-help text-xs" style={{ color: 'var(--text-muted)' }}>(?)</span>
+              <span
+                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10"
+                style={{ background: 'var(--accent-primary)', color: 'white' }}
+              >
                 {tooltip}
               </span>
             </span>
@@ -65,7 +68,12 @@ export function SliderInput({
           type="text"
           value={formatValue(value)}
           onChange={handleInputChange}
-          className="w-28 text-right text-sm font-mono px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          className="w-28 text-right text-sm font-mono px-2 py-1 rounded"
+          style={{
+            background: 'var(--bg-secondary)',
+            border: '1px solid var(--border-color)',
+            color: 'var(--text-primary)',
+          }}
         />
       </div>
       <input
@@ -77,7 +85,7 @@ export function SliderInput({
         onChange={(e) => onChange(parseFloat(e.target.value))}
         className="w-full"
       />
-      <div className="flex justify-between text-xs text-gray-500 mt-1">
+      <div className="flex justify-between text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
         <span>{formatValue(min)}</span>
         <span>{formatValue(max)}</span>
       </div>

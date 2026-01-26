@@ -40,20 +40,25 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
       {/* Header */}
-      <header className="bg-white border-b border-gray-200">
+      <header className="border-b" style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">vKAT Staking APY Simulator</h1>
-              <p className="text-sm text-gray-500 mt-1">
+              <h1 className="text-2xl font-bold gradient-text">vKAT Staking APY Simulator</h1>
+              <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
                 Calculate expected yields for voting in the Katana Armory
               </p>
             </div>
             <button
               onClick={handleReset}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="px-4 py-2 text-sm font-medium rounded-lg transition-all hover:scale-105"
+              style={{
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border-color)',
+                color: 'var(--text-secondary)',
+              }}
             >
               Reset to Defaults
             </button>
@@ -67,13 +72,13 @@ function App() {
           {/* Left Column - Inputs */}
           <div className="lg:col-span-1 space-y-6">
             {/* Scenario Presets */}
-            <div className="bg-white rounded-xl border border-gray-200 p-5">
+            <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
               <ScenarioPresets onSelect={handleScenarioSelect} activeScenario={activeScenario} />
             </div>
 
             {/* Your Position */}
-            <div className="bg-white rounded-xl border border-gray-200 p-5">
-              <h3 className="text-sm font-semibold text-gray-700 mb-4">Your Position</h3>
+            <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
+              <h3 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Your Position</h3>
               <SliderInput
                 label="Your vKAT Amount"
                 value={inputs.userVkat}
@@ -93,8 +98,8 @@ function App() {
             </div>
 
             {/* Market Parameters */}
-            <div className="bg-white rounded-xl border border-gray-200 p-5">
-              <h3 className="text-sm font-semibold text-gray-700 mb-4">Market Parameters</h3>
+            <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
+              <h3 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Market Parameters</h3>
               <SliderInput
                 label="Circulating Supply"
                 value={inputs.circulatingSupply}
@@ -130,11 +135,11 @@ function App() {
             </div>
 
             {/* Advanced Parameters */}
-            <div className="bg-white rounded-xl border border-gray-200 p-5">
+            <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
               <details className="group">
-                <summary className="text-sm font-semibold text-gray-700 cursor-pointer flex items-center justify-between">
+                <summary className="text-sm font-semibold cursor-pointer flex items-center justify-between" style={{ color: 'var(--text-primary)' }}>
                   <span>Advanced Parameters</span>
-                  <span className="text-gray-400 group-open:rotate-180 transition-transform">
+                  <span className="group-open:rotate-180 transition-transform" style={{ color: 'var(--text-muted)' }}>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                       <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="2" fill="none" />
                     </svg>
@@ -162,9 +167,9 @@ function App() {
             </div>
 
             {/* Fixed Parameters Info */}
-            <div className="bg-gray-100 rounded-xl p-4">
-              <h4 className="text-xs font-semibold text-gray-600 mb-2">Fixed Parameters</h4>
-              <div className="grid grid-cols-2 gap-2 text-xs text-gray-500">
+            <div className="rounded-xl p-4" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-color)' }}>
+              <h4 className="text-xs font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>Fixed Parameters</h4>
+              <div className="grid grid-cols-2 gap-2 text-xs" style={{ color: 'var(--text-muted)' }}>
                 <div>Protocol Fee: 0.05%</div>
                 <div>LP Fee: 0.25%</div>
                 <div>Epoch Duration: {CONSTANTS.EPOCH_DURATION_DAYS} days</div>
@@ -191,13 +196,13 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 mt-12">
+      <footer className="border-t mt-12" style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-sm text-gray-500">
+            <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
               vKAT Staking APY Simulator | Katana Tokenomics Tool
             </div>
-            <div className="text-xs text-gray-400">
+            <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
               Model assumptions based on confirmed vKAT Armory mechanics.
               Actual returns may vary.
             </div>

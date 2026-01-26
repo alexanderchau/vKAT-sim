@@ -1,53 +1,135 @@
 @import "tailwindcss";
 
 :root {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Dark finance dashboard color scheme */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-card: #1a1a2e;
+  --bg-card-hover: #222240;
+  --border-color: #2a2a4a;
+  --border-accent: #3b3b6b;
+
+  /* Text colors */
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0b8;
+  --text-muted: #6b6b8a;
+
+  /* Accent colors */
+  --accent-primary: #6366f1;
+  --accent-primary-hover: #818cf8;
+  --accent-blue: #3b82f6;
+  --accent-cyan: #06b6d4;
+
+  /* Status colors */
+  --success: #10b981;
+  --success-muted: #065f46;
+  --warning: #f59e0b;
+  --warning-muted: #78350f;
+  --danger: #ef4444;
+
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  color-scheme: dark;
 }
 
 body {
   margin: 0;
   min-width: 320px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
 }
 
-/* Custom slider styling */
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-accent);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
+
+/* Custom slider styling - dark theme */
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
-  height: 8px;
-  border-radius: 4px;
-  background: #e5e7eb;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--accent-primary) 0%, var(--border-color) 0%);
   cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-track {
+  background: var(--border-color);
+  border-radius: 3px;
+  height: 6px;
 }
 
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: #6366f1;
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-blue) 100%);
   cursor: pointer;
-  border: 2px solid white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5), 0 2px 4px rgba(0,0,0,0.3);
+  transition: all 0.2s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.7), 0 2px 6px rgba(0,0,0,0.4);
+}
+
+input[type="range"]::-moz-range-track {
+  background: var(--border-color);
+  border-radius: 3px;
+  height: 6px;
 }
 
 input[type="range"]::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: #6366f1;
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-blue) 100%);
   cursor: pointer;
-  border: 2px solid white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5), 0 2px 4px rgba(0,0,0,0.3);
 }
 
-/* Number input styling */
+/* Text input styling - dark theme */
+input[type="text"],
+input[type="number"] {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  outline: none;
+}
+
 input[type="number"] {
   -moz-appearance: textfield;
 }
@@ -56,4 +138,42 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+/* Glow effects for accents */
+.glow-primary {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+.glow-success {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+/* Card glass effect */
+.glass-card {
+  background: rgba(26, 26, 46, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animation for numbers */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
 }
