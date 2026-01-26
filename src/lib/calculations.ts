@@ -16,7 +16,7 @@ export const DEFAULT_INPUTS: SimulatorInputs = {
   userVkat: 100_000,
   circulatingSupply: 2_000_000_000,
   stakeRate: 0.30,
-  annualVolume: 4_800_000_000,
+  annualVolume: 6_000_000_000,
   bribesPerEpoch: 100_000,
   katPrice: 0.10,
   churnRate: 0.15,
@@ -28,8 +28,8 @@ export const INPUT_CONSTRAINTS = {
   userVkat: { min: 1, max: 100_000_000, step: 1000 },
   circulatingSupply: { min: 1_000_000_000, max: 10_000_000_000, step: 100_000_000 },
   stakeRate: { min: 0.10, max: 0.70, step: 0.01 },
-  annualVolume: { min: 1_000_000_000, max: 20_000_000_000, step: 100_000_000 },
-  bribesPerEpoch: { min: 0, max: 2_000_000, step: 10_000 },
+  annualVolume: { min: 6_000_000_000, max: 100_000_000_000, step: 100_000_000 },
+  bribesPerEpoch: { min: 100_000, max: 2_000_000, step: 10_000 },
   katPrice: { min: 0.01, max: 1.00, step: 0.01 },
   churnRate: { min: 0.05, max: 0.30, step: 0.01 },
   avgExitFee: { min: 0.025, max: 0.25, step: 0.005 },
@@ -189,8 +189,8 @@ export const SCENARIO_PRESETS: ScenarioPreset[] = [
     description: 'Lower volume, higher stake rate, minimal bribes',
     inputs: {
       stakeRate: 0.50,
-      annualVolume: 2_000_000_000,
-      bribesPerEpoch: 25_000,
+      annualVolume: 6_000_000_000,
+      bribesPerEpoch: 100_000,
     },
   },
   {
@@ -198,7 +198,7 @@ export const SCENARIO_PRESETS: ScenarioPreset[] = [
     description: 'Current market conditions',
     inputs: {
       stakeRate: 0.30,
-      annualVolume: 4_800_000_000,
+      annualVolume: 10_000_000_000,
       bribesPerEpoch: 100_000,
     },
   },
@@ -207,7 +207,7 @@ export const SCENARIO_PRESETS: ScenarioPreset[] = [
     description: 'Higher volume, lower stake rate, strong bribes',
     inputs: {
       stakeRate: 0.20,
-      annualVolume: 10_000_000_000,
+      annualVolume: 25_000_000_000,
       bribesPerEpoch: 250_000,
     },
   },
