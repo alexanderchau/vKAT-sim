@@ -48,10 +48,10 @@ export function SensitivityCharts({ inputs, outputs }: SensitivityChartsProps) {
   const compositionData = useMemo(() => generateCompositionData(outputs), [outputs]);
 
   const tabs: { id: ChartTab; label: string }[] = [
-    { id: 'stake', label: 'APY vs Stake Rate' },
-    { id: 'bribes', label: 'APY vs Bribes' },
-    { id: 'volume', label: 'APY vs Volume' },
-    { id: 'composition', label: 'APY Composition' },
+    { id: 'stake', label: 'Participation Rate' },
+    { id: 'bribes', label: 'Bribe Market' },
+    { id: 'volume', label: 'Trading Volume' },
+    { id: 'composition', label: 'Yield Sources' },
   ];
 
   const tooltipStyle = {
@@ -104,7 +104,7 @@ export function SensitivityCharts({ inputs, outputs }: SensitivityChartsProps) {
               />
               <Tooltip
                 formatter={(value) => [formatPercent(Number(value)), 'APY']}
-                labelFormatter={(label) => `Stake Rate: ${label}%`}
+                labelFormatter={(label) => `Participation: ${label}%`}
                 contentStyle={tooltipStyle}
               />
               <ReferenceLine
@@ -142,7 +142,7 @@ export function SensitivityCharts({ inputs, outputs }: SensitivityChartsProps) {
               />
               <Tooltip
                 formatter={(value) => [formatPercent(Number(value)), 'APY']}
-                labelFormatter={(label) => `Bribes/Epoch: ${formatCurrency(Number(label))}`}
+                labelFormatter={(label) => `Bribes per Epoch: ${formatCurrency(Number(label))}`}
                 contentStyle={tooltipStyle}
               />
               <ReferenceLine
@@ -236,16 +236,16 @@ export function SensitivityCharts({ inputs, outputs }: SensitivityChartsProps) {
       {/* Chart Description */}
       <div className="mt-4 text-xs" style={{ color: 'var(--text-muted)' }}>
         {activeTab === 'stake' && (
-          <p>Shows the inverse relationship between participation rate and APY. Lower stake rates mean higher yields for stakers.</p>
+          <p>Illustrates the inverse relationship between staking participation and yield. Lower participation rates result in higher per-staker returns.</p>
         )}
         {activeTab === 'bribes' && (
-          <p>Shows the linear relationship between bribe market size and APY. Larger bribe markets directly increase staker returns.</p>
+          <p>Demonstrates the linear relationship between aggregate bribe incentives and staker yield. Increased bribe activity directly enhances returns.</p>
         )}
         {activeTab === 'volume' && (
-          <p>Shows the linear relationship between DEX trading volume and APY. More trading activity generates more protocol fees.</p>
+          <p>Shows the correlation between DEX trading volume and yield. Higher trading activity generates proportionally greater protocol fee revenue.</p>
         )}
         {activeTab === 'composition' && (
-          <p>Shows the breakdown of APY sources: trading fees, bribes, and exit fee redistribution.</p>
+          <p>Displays the relative contribution of each revenue source to total yield: protocol fees, bribe distributions, and exit fee redistribution.</p>
         )}
       </div>
     </div>

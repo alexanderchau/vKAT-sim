@@ -186,7 +186,7 @@ export function generateCompositionData(outputs: SimulatorOutputs): {
 export const SCENARIO_PRESETS: ScenarioPreset[] = [
   {
     name: 'Bear',
-    description: 'Lower volume, higher stake rate, minimal bribes',
+    description: 'Conservative assumptions',
     inputs: {
       stakeRate: 0.50,
       annualVolume: 6_000_000_000,
@@ -195,7 +195,7 @@ export const SCENARIO_PRESETS: ScenarioPreset[] = [
   },
   {
     name: 'Base',
-    description: 'Current market conditions',
+    description: 'Baseline projection',
     inputs: {
       stakeRate: 0.30,
       annualVolume: 10_000_000_000,
@@ -204,7 +204,7 @@ export const SCENARIO_PRESETS: ScenarioPreset[] = [
   },
   {
     name: 'Bull',
-    description: 'Higher volume, lower stake rate, strong bribes',
+    description: 'Optimistic scenario',
     inputs: {
       stakeRate: 0.20,
       annualVolume: 25_000_000_000,

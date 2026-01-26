@@ -33,7 +33,7 @@ const scenarioStyles: Record<string, { bg: string; border: string; text: string;
 export function ScenarioPresets({ onSelect, activeScenario }: ScenarioPresetsProps) {
   return (
     <div>
-      <h3 className="section-title">Market Scenarios</h3>
+      <h3 className="section-title">Scenario Presets</h3>
       <div className="grid grid-cols-3 gap-2">
         {SCENARIO_PRESETS.map((scenario) => {
           const styles = scenarioStyles[scenario.name];
