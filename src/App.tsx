@@ -136,34 +136,23 @@ function App() {
 
             {/* Advanced Parameters */}
             <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
-              <details className="group">
-                <summary className="text-sm font-semibold cursor-pointer flex items-center justify-between" style={{ color: 'var(--text-primary)' }}>
-                  <span>Advanced Parameters</span>
-                  <span className="group-open:rotate-180 transition-transform" style={{ color: 'var(--text-muted)' }}>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                      <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="2" fill="none" />
-                    </svg>
-                  </span>
-                </summary>
-                <div className="mt-4 space-y-4">
-                  <SliderInput
-                    label="Annual Churn Rate"
-                    value={inputs.churnRate}
-                    onChange={(v) => updateInput('churnRate', v)}
-                    {...INPUT_CONSTRAINTS.churnRate}
-                    format="percent"
-                    tooltip="% of vKAT that exits annually"
-                  />
-                  <SliderInput
-                    label="Average Exit Fee"
-                    value={inputs.avgExitFee}
-                    onChange={(v) => updateInput('avgExitFee', v)}
-                    {...INPUT_CONSTRAINTS.avgExitFee}
-                    format="percent"
-                    tooltip="Blended exit fee (2.5% cooldown to 25% instant)"
-                  />
-                </div>
-              </details>
+              <h3 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Advanced Parameters</h3>
+              <SliderInput
+                label="Annual Churn Rate"
+                value={inputs.churnRate}
+                onChange={(v) => updateInput('churnRate', v)}
+                {...INPUT_CONSTRAINTS.churnRate}
+                format="percent"
+                tooltip="% of vKAT that exits annually"
+              />
+              <SliderInput
+                label="Average Exit Fee"
+                value={inputs.avgExitFee}
+                onChange={(v) => updateInput('avgExitFee', v)}
+                {...INPUT_CONSTRAINTS.avgExitFee}
+                format="percent"
+                tooltip="Blended exit fee (2.5% cooldown to 25% instant)"
+              />
             </div>
 
             {/* Fixed Parameters Info */}
