@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import {
   LineChart,
   Line,
@@ -7,18 +7,11 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  BarChart,
-  Bar,
-  Legend,
   ReferenceLine,
 } from 'recharts';
 import {
   generateStakeRateChartData,
-  generateBribeChartData,
-  generateVolumeChartData,
-  generateCompositionData,
   formatPercent,
-  formatCurrency,
 } from '../lib/calculations';
 import type { SimulatorInputs, SimulatorOutputs } from '../types';
 
@@ -27,227 +20,70 @@ interface SensitivityChartsProps {
   outputs: SimulatorOutputs;
 }
 
-type ChartTab = 'stake' | 'bribes' | 'volume' | 'composition';
-
 const COLORS = {
-  fees: '#4a90d9',
-  bribes: '#34a77f',
-  exitFees: '#d4a034',
   line: '#4a90d9',
   reference: '#d9534f',
   grid: '#252a35',
-  axis: '#6b7280',
+  axis: '#7a818c',
 };
 
-export function SensitivityCharts({ inputs, outputs }: SensitivityChartsProps) {
-  const [activeTab, setActiveTab] = useState<ChartTab>('stake');
-
+export function SensitivityCharts({ inputs }: SensitivityChartsProps) {
   const stakeRateData = useMemo(() => generateStakeRateChartData(inputs), [inputs]);
-  const bribeData = useMemo(() => generateBribeChartData(inputs), [inputs]);
-  const volumeData = useMemo(() => generateVolumeChartData(inputs), [inputs]);
-  const compositionData = useMemo(() => generateCompositionData(outputs), [outputs]);
-
-  const tabs: { id: ChartTab; label: string }[] = [
-    { id: 'stake', label: 'Participation Rate' },
-    { id: 'bribes', label: 'Bribe Market' },
-    { id: 'volume', label: 'Trading Volume' },
-    { id: 'composition', label: 'Yield Sources' },
-  ];
 
   const tooltipStyle = {
     backgroundColor: '#181b22',
     border: '1px solid #2a2f3a',
     borderRadius: '6px',
-    fontSize: '12px',
+    fontSize: '13px',
     color: '#e8eaed',
     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
   };
 
   return (
     <div className="card">
-      <h3 className="section-title">Sensitivity Analysis</h3>
+      <h3 className="section-title">APY vs Staking Participation</h3>
 
-      {/* Tab Navigation */}
-      <div className="flex gap-1 p-1 rounded-md mb-4 overflow-x-auto" style={{ background: 'var(--bg-secondary)' }}>
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className="flex-1 px-3 py-2 text-xs font-medium rounded transition-all whitespace-nowrap"
-            style={{
-              background: activeTab === tab.id ? 'var(--bg-card)' : 'transparent',
-              color: activeTab === tab.id ? 'var(--text-primary)' : 'var(--text-muted)',
-              border: activeTab === tab.id ? '1px solid var(--border-subtle)' : '1px solid transparent',
-            }}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Chart Container */}
       <div className="h-64">
-        {activeTab === 'stake' && (
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={stakeRateData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke={COLORS.grid} />
-              <XAxis
-                dataKey="stakeRate"
-                tick={{ fontSize: 11, fill: COLORS.axis }}
-                tickFormatter={(v) => `${v}%`}
-                stroke={COLORS.grid}
-              />
-              <YAxis
-                tick={{ fontSize: 11, fill: COLORS.axis }}
-                tickFormatter={(v) => `${v.toFixed(0)}%`}
-                stroke={COLORS.grid}
-              />
-              <Tooltip
-                formatter={(value) => [formatPercent(Number(value)), 'APY']}
-                labelFormatter={(label) => `Participation: ${label}%`}
-                contentStyle={tooltipStyle}
-              />
-              <ReferenceLine
-                x={inputs.stakeRate * 100}
-                stroke={COLORS.reference}
-                strokeDasharray="5 5"
-                label={{ value: 'Current', position: 'top', fontSize: 10, fill: COLORS.reference }}
-              />
-              <Line
-                type="monotone"
-                dataKey="apy"
-                stroke={COLORS.line}
-                strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 4, fill: COLORS.line }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        )}
-
-        {activeTab === 'bribes' && (
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={bribeData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke={COLORS.grid} />
-              <XAxis
-                dataKey="bribesPerEpoch"
-                tick={{ fontSize: 11, fill: COLORS.axis }}
-                tickFormatter={(v) => formatCurrency(v, 0)}
-                stroke={COLORS.grid}
-              />
-              <YAxis
-                tick={{ fontSize: 11, fill: COLORS.axis }}
-                tickFormatter={(v) => `${v.toFixed(0)}%`}
-                stroke={COLORS.grid}
-              />
-              <Tooltip
-                formatter={(value) => [formatPercent(Number(value)), 'APY']}
-                labelFormatter={(label) => `Bribes per Epoch: ${formatCurrency(Number(label))}`}
-                contentStyle={tooltipStyle}
-              />
-              <ReferenceLine
-                x={inputs.bribesPerEpoch}
-                stroke={COLORS.reference}
-                strokeDasharray="5 5"
-              />
-              <Line
-                type="monotone"
-                dataKey="apy"
-                stroke={COLORS.bribes}
-                strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 4, fill: COLORS.bribes }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        )}
-
-        {activeTab === 'volume' && (
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={volumeData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke={COLORS.grid} />
-              <XAxis
-                dataKey="annualVolume"
-                tick={{ fontSize: 11, fill: COLORS.axis }}
-                tickFormatter={(v) => `$${v}B`}
-                stroke={COLORS.grid}
-              />
-              <YAxis
-                tick={{ fontSize: 11, fill: COLORS.axis }}
-                tickFormatter={(v) => `${v.toFixed(0)}%`}
-                stroke={COLORS.grid}
-              />
-              <Tooltip
-                formatter={(value) => [formatPercent(Number(value)), 'APY']}
-                labelFormatter={(label) => `Annual Volume: $${label}B`}
-                contentStyle={tooltipStyle}
-              />
-              <ReferenceLine
-                x={inputs.annualVolume / 1_000_000_000}
-                stroke={COLORS.reference}
-                strokeDasharray="5 5"
-              />
-              <Line
-                type="monotone"
-                dataKey="apy"
-                stroke={COLORS.fees}
-                strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 4, fill: COLORS.fees }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        )}
-
-        {activeTab === 'composition' && (
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={[{ name: 'APY', ...Object.fromEntries(compositionData.map((d) => [d.name, d.value])) }]}
-              layout="vertical"
-              margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke={COLORS.grid} />
-              <XAxis
-                type="number"
-                tick={{ fontSize: 11, fill: COLORS.axis }}
-                tickFormatter={(v) => `${v.toFixed(1)}%`}
-                stroke={COLORS.grid}
-              />
-              <YAxis type="category" dataKey="name" tick={false} width={0} />
-              <Tooltip
-                formatter={(value, name) => [formatPercent(Number(value)), String(name)]}
-                contentStyle={tooltipStyle}
-              />
-              <Legend
-                verticalAlign="bottom"
-                height={36}
-                iconType="circle"
-                iconSize={8}
-                wrapperStyle={{ fontSize: '11px', color: 'var(--text-secondary)' }}
-              />
-              <Bar dataKey="Trading Fees" stackId="a" fill={COLORS.fees} />
-              <Bar dataKey="Bribes" stackId="a" fill={COLORS.bribes} />
-              <Bar dataKey="Exit Fees" stackId="a" fill={COLORS.exitFees} />
-            </BarChart>
-          </ResponsiveContainer>
-        )}
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={stakeRateData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke={COLORS.grid} />
+            <XAxis
+              dataKey="stakeRate"
+              tick={{ fontSize: 12, fill: COLORS.axis }}
+              tickFormatter={(v) => `${Math.round(v)}%`}
+              stroke={COLORS.grid}
+            />
+            <YAxis
+              tick={{ fontSize: 12, fill: COLORS.axis }}
+              tickFormatter={(v) => `${Math.round(v)}%`}
+              stroke={COLORS.grid}
+            />
+            <Tooltip
+              formatter={(value) => [formatPercent(Number(value), 1), 'APY']}
+              labelFormatter={(label) => `Participation: ${Math.round(Number(label))}%`}
+              contentStyle={tooltipStyle}
+            />
+            <ReferenceLine
+              x={inputs.stakeRate * 100}
+              stroke={COLORS.reference}
+              strokeDasharray="5 5"
+              label={{ value: 'Current', position: 'top', fontSize: 11, fill: COLORS.reference }}
+            />
+            <Line
+              type="monotone"
+              dataKey="apy"
+              stroke={COLORS.line}
+              strokeWidth={2}
+              dot={false}
+              activeDot={{ r: 4, fill: COLORS.line }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
 
-      {/* Chart Description */}
-      <div className="mt-4 text-xs" style={{ color: 'var(--text-muted)' }}>
-        {activeTab === 'stake' && (
-          <p>Illustrates the inverse relationship between staking participation and yield. Lower participation rates result in higher per-staker returns.</p>
-        )}
-        {activeTab === 'bribes' && (
-          <p>Demonstrates the linear relationship between aggregate bribe incentives and staker yield. Increased bribe activity directly enhances returns.</p>
-        )}
-        {activeTab === 'volume' && (
-          <p>Shows the correlation between DEX trading volume and yield. Higher trading activity generates proportionally greater protocol fee revenue.</p>
-        )}
-        {activeTab === 'composition' && (
-          <p>Displays the relative contribution of each revenue source to total yield: protocol fees, bribe distributions, and exit fee redistribution.</p>
-        )}
-      </div>
+      <p className="mt-4 text-sm" style={{ color: 'var(--text-muted)' }}>
+        Lower staking participation results in higher per-staker returns.
+      </p>
     </div>
   );
 }

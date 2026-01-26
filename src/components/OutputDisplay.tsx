@@ -7,19 +7,19 @@ interface OutputDisplayProps {
   katPrice: number;
 }
 
-// Format with high precision for tooltips
-function formatPrecise(value: number, decimals = 6): string {
-  return value.toLocaleString('en-US', {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  });
-}
-
 export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProps) {
   const userPositionValue = userVkat * katPrice;
   const monthlyYield = outputs.userAnnualYieldUsd / 12;
   const dailyYield = outputs.userAnnualYieldUsd / 365;
   const roiPercent = userPositionValue > 0 ? (outputs.userAnnualYieldUsd / userPositionValue) * 100 : 0;
+
+  // Format staked amount nicely
+  const formatStaked = (val: number): string => {
+    if (val >= 1_000_000_000) {
+      return `${(val / 1_000_000_000).toFixed(1)}B`;
+    }
+    return `${Math.round(val / 1_000_000)}M`;
+  };
 
   return (
     <div className="space-y-5">
@@ -31,7 +31,7 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
         <div className="text-center">
           <div className="stat-label">Projected APY</div>
           <div className="text-2xl font-mono font-bold" style={{ color: 'var(--accent-primary)' }}>
-            {formatPercent(outputs.totalApy)}
+            {formatPercent(outputs.totalApy, 1)}
           </div>
         </div>
         <div className="text-center" style={{ borderLeft: '1px solid var(--border-subtle)', borderRight: '1px solid var(--border-subtle)' }}>
@@ -53,34 +53,26 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
         <div className="flex items-start justify-between">
           <div>
             <div className="stat-label mb-1">Projected Annual Percentage Yield</div>
-            <div
-              className="stat-value-lg metric-highlight cursor-help"
-              title={`Precise: ${formatPrecise(outputs.totalApy, 4)}%`}
-            >
-              {formatPercent(outputs.totalApy)}
+            <div className="stat-value-lg metric-highlight">
+              {formatPercent(outputs.totalApy, 1)}
             </div>
           </div>
           <div className="text-right">
             <div className="stat-label mb-1">Effective ROI</div>
             <div
-              className="text-lg font-mono font-semibold cursor-help"
+              className="text-xl font-mono font-semibold"
               style={{ color: 'var(--success)' }}
-              title={`Based on ${formatCurrency(userPositionValue)} position value`}
             >
-              {formatPercent(roiPercent)}
+              {formatPercent(roiPercent, 1)}
             </div>
           </div>
         </div>
         <div className="mt-4 pt-4" style={{ borderTop: '1px solid rgba(74, 144, 217, 0.2)' }}>
           <div className="flex items-center justify-between text-sm">
             <span style={{ color: 'var(--text-muted)' }}>
-              Based on <span className="font-mono font-medium" style={{ color: 'var(--text-secondary)' }}>{formatNumber(outputs.totalVkatStaked / 1_000_000)}M</span> vKAT total staked
+              Based on <span className="font-mono font-medium" style={{ color: 'var(--text-secondary)' }}>{formatStaked(outputs.totalVkatStaked)}</span> vKAT staked
             </span>
-            <span
-              className="font-mono cursor-help"
-              style={{ color: 'var(--text-secondary)' }}
-              title={`Daily yield: ${formatCurrency(dailyYield)}`}
-            >
+            <span className="font-mono" style={{ color: 'var(--text-secondary)' }}>
               ≈ {formatCurrency(dailyYield)}/day
             </span>
           </div>
@@ -97,15 +89,11 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
               <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Protocol Fee Revenue</span>
             </div>
             <div className="text-right">
-              <span
-                className="font-mono font-semibold cursor-help"
-                style={{ color: 'var(--text-primary)' }}
-                title={`${formatPrecise(outputs.apyFromFees, 4)}% | ${formatCurrency(outputs.feeRevenue)} annually`}
-              >
-                {formatPercent(outputs.apyFromFees)}
+              <span className="font-mono font-semibold" style={{ color: 'var(--text-primary)' }}>
+                {formatPercent(outputs.apyFromFees, 1)}
               </span>
               <span className="text-xs font-mono ml-2" style={{ color: 'var(--text-muted)' }}>
-                ({((outputs.apyFromFees / outputs.totalApy) * 100).toFixed(0)}%)
+                ({Math.round((outputs.apyFromFees / outputs.totalApy) * 100)}%)
               </span>
             </div>
           </div>
@@ -115,15 +103,11 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
               <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Bribe Distributions</span>
             </div>
             <div className="text-right">
-              <span
-                className="font-mono font-semibold cursor-help"
-                style={{ color: 'var(--text-primary)' }}
-                title={`${formatPrecise(outputs.apyFromBribes, 4)}% | ${formatCurrency(outputs.bribeRevenue)} annually`}
-              >
-                {formatPercent(outputs.apyFromBribes)}
+              <span className="font-mono font-semibold" style={{ color: 'var(--text-primary)' }}>
+                {formatPercent(outputs.apyFromBribes, 1)}
               </span>
               <span className="text-xs font-mono ml-2" style={{ color: 'var(--text-muted)' }}>
-                ({((outputs.apyFromBribes / outputs.totalApy) * 100).toFixed(0)}%)
+                ({Math.round((outputs.apyFromBribes / outputs.totalApy) * 100)}%)
               </span>
             </div>
           </div>
@@ -133,15 +117,11 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
               <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Exit Fee Redistribution</span>
             </div>
             <div className="text-right">
-              <span
-                className="font-mono font-semibold cursor-help"
-                style={{ color: 'var(--text-primary)' }}
-                title={`${formatPrecise(outputs.apyFromExitFees, 4)}% | ${formatCurrency(outputs.exitFeeRevenue)} annually`}
-              >
-                {formatPercent(outputs.apyFromExitFees)}
+              <span className="font-mono font-semibold" style={{ color: 'var(--text-primary)' }}>
+                {formatPercent(outputs.apyFromExitFees, 1)}
               </span>
               <span className="text-xs font-mono ml-2" style={{ color: 'var(--text-muted)' }}>
-                ({((outputs.apyFromExitFees / outputs.totalApy) * 100).toFixed(0)}%)
+                ({Math.round((outputs.apyFromExitFees / outputs.totalApy) * 100)}%)
               </span>
             </div>
           </div>
@@ -170,39 +150,25 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
         <div className="grid grid-cols-2 gap-5">
           <div>
             <div className="stat-label">Position Value</div>
-            <div
-              className="stat-value cursor-help"
-              title={`${formatNumber(userVkat)} vKAT × $${katPrice.toFixed(2)}`}
-            >
+            <div className="stat-value">
               {formatCurrency(userPositionValue)}
             </div>
           </div>
           <div>
             <div className="stat-label">vKAT Holdings</div>
-            <div
-              className="stat-value cursor-help"
-              title={`Precise: ${formatPrecise(userVkat, 0)}`}
-            >
+            <div className="stat-value">
               {formatNumber(userVkat)}
             </div>
           </div>
           <div>
             <div className="stat-label">Projected Annual Return</div>
-            <div
-              className="stat-value cursor-help"
-              style={{ color: 'var(--success)' }}
-              title={`Precise: $${formatPrecise(outputs.userAnnualYieldUsd, 2)}`}
-            >
+            <div className="stat-value" style={{ color: 'var(--success)' }}>
               +{formatCurrency(outputs.userAnnualYieldUsd)}
             </div>
           </div>
           <div>
             <div className="stat-label">Per Epoch ({CONSTANTS.EPOCH_DURATION_DAYS}d)</div>
-            <div
-              className="stat-value cursor-help"
-              style={{ color: 'var(--success)' }}
-              title={`${CONSTANTS.EPOCHS_PER_YEAR} epochs per year`}
-            >
+            <div className="stat-value" style={{ color: 'var(--success)' }}>
               +{formatCurrency(outputs.userEpochYieldUsd)}
             </div>
           </div>
@@ -215,31 +181,19 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
         <div className="space-y-0">
           <div className="data-row">
             <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Trading Fee Revenue</span>
-            <span
-              className="font-mono font-medium cursor-help"
-              style={{ color: 'var(--text-primary)' }}
-              title={`0.05% of ${formatCurrency(outputs.feeRevenue / 0.0005)} trading volume`}
-            >
+            <span className="font-mono font-medium" style={{ color: 'var(--text-primary)' }}>
               {formatCurrency(outputs.feeRevenue)}
             </span>
           </div>
           <div className="data-row">
             <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Bribe Revenue</span>
-            <span
-              className="font-mono font-medium cursor-help"
-              style={{ color: 'var(--text-primary)' }}
-              title={`${CONSTANTS.EPOCHS_PER_YEAR} epochs × bribe pool`}
-            >
+            <span className="font-mono font-medium" style={{ color: 'var(--text-primary)' }}>
               {formatCurrency(outputs.bribeRevenue)}
             </span>
           </div>
           <div className="data-row">
             <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Exit Fee Revenue</span>
-            <span
-              className="font-mono font-medium cursor-help"
-              style={{ color: 'var(--text-primary)' }}
-              title="Redistributed to remaining stakers"
-            >
+            <span className="font-mono font-medium" style={{ color: 'var(--text-primary)' }}>
               {formatCurrency(outputs.exitFeeRevenue)}
             </span>
           </div>
@@ -254,12 +208,8 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
       <div className="info-panel">
         <div className="flex justify-between items-center">
           <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Annualized Yield per vKAT</span>
-          <span
-            className="font-mono text-base font-semibold cursor-help"
-            style={{ color: 'var(--accent-primary)' }}
-            title={`Precise: $${formatPrecise(outputs.yieldPerVkatUsd, 8)}`}
-          >
-            ${outputs.yieldPerVkatUsd.toFixed(6)}
+          <span className="font-mono text-base font-semibold" style={{ color: 'var(--accent-primary)' }}>
+            ${outputs.yieldPerVkatUsd.toFixed(4)}
           </span>
         </div>
       </div>
