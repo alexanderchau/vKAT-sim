@@ -26,7 +26,7 @@ export const DEFAULT_INPUTS: SimulatorInputs = {
 // Input constraints
 export const INPUT_CONSTRAINTS = {
   userVkat: { min: 1, max: 100_000_000, step: 1000 },
-  circulatingSupply: { min: 1_000_000_000, max: 5_000_000_000, step: 100_000_000 },
+  circulatingSupply: { min: 1_000_000_000, max: 10_000_000_000, step: 100_000_000 },
   stakeRate: { min: 0.10, max: 0.70, step: 0.01 },
   annualVolume: { min: 1_000_000_000, max: 20_000_000_000, step: 100_000_000 },
   bribesPerEpoch: { min: 0, max: 2_000_000, step: 10_000 },
