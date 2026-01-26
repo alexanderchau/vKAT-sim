@@ -388,3 +388,84 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: var(--radius-xl);
   padding: var(--space-xl);
 }
+
+/* Smooth value transitions */
+.stat-value,
+.stat-value-lg,
+.font-mono {
+  transition: color 0.2s ease;
+}
+
+/* Cursor help indicator */
+.cursor-help {
+  cursor: help;
+  border-bottom: 1px dotted var(--border-color);
+  padding-bottom: 1px;
+}
+
+.cursor-help:hover {
+  border-bottom-color: var(--accent-primary);
+}
+
+/* Enhanced focus states for accessibility */
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Subtle hover effect for interactive cards */
+.card {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--border-color);
+}
+
+/* Data row hover */
+.data-row {
+  transition: background-color 0.15s ease;
+  margin: 0 calc(var(--space-md) * -1);
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+  border-radius: var(--radius-sm);
+}
+
+.data-row:hover {
+  background-color: var(--bg-secondary);
+}
+
+/* Button hover enhancement */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.03) 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.btn:hover::after {
+  opacity: 1;
+}
+
+/* Number tabular figures for alignment */
+.font-mono {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Positive value indicator */
+.text-positive {
+  color: var(--success);
+}
+
+/* Negative value indicator */
+.text-negative {
+  color: var(--danger);
+}

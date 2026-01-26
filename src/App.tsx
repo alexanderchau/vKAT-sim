@@ -15,6 +15,8 @@ import {
 } from './lib/calculations';
 import type { SimulatorInputs } from './types';
 
+const MODEL_VERSION = '1.0';
+
 function App() {
   const [inputs, setInputs] = useState<SimulatorInputs>(DEFAULT_INPUTS);
   const [activeScenario, setActiveScenario] = useState<string | null>('Base');
@@ -46,19 +48,33 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>
-                vKAT Staking Yield Model
-              </h1>
+              <div className="flex items-center gap-3">
+                <h1 className="text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>
+                  vKAT Staking Yield Model
+                </h1>
+                <span
+                  className="text-xs font-mono px-2 py-0.5 rounded"
+                  style={{
+                    background: 'var(--bg-elevated)',
+                    color: 'var(--text-muted)',
+                    border: '1px solid var(--border-subtle)'
+                  }}
+                >
+                  v{MODEL_VERSION}
+                </span>
+              </div>
               <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
                 Projected returns for Katana Armory participation
               </p>
             </div>
-            <button
-              onClick={handleReset}
-              className="btn text-sm"
-            >
-              Reset Parameters
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleReset}
+                className="btn text-sm"
+              >
+                Reset Parameters
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -186,12 +202,19 @@ function App() {
       {/* Footer */}
       <footer style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-subtle)', marginTop: '48px' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-              vKAT Staking Yield Model
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
+                vKAT Staking Yield Model
+              </span>
+              <span className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>
+                v{MODEL_VERSION}
+              </span>
             </div>
-            <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
-              Based on confirmed vKAT Armory mechanics. For illustrative purposes only.
+            <div className="flex items-center gap-6 text-xs" style={{ color: 'var(--text-muted)' }}>
+              <span>Based on confirmed vKAT Armory mechanics</span>
+              <span style={{ color: 'var(--border-color)' }}>|</span>
+              <span>For illustrative purposes only</span>
             </div>
           </div>
         </div>
