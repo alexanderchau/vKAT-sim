@@ -7,7 +7,7 @@ export const CONSTANTS = {
   PROTOCOL_FEE_RATE: 0.0005, // 0.05%
   TOTAL_KAT_SUPPLY: 10_000_000_000,
   MIN_EXIT_FEE: 0.025, // 2.5% with full cooldown
-  MAX_EXIT_FEE: 0.25, // 25% instant exit
+  MAX_EXIT_FEE: 0.50, // 50% instant exit
   COOLDOWN_DAYS: 45,
 } as const;
 
@@ -27,12 +27,12 @@ export const DEFAULT_INPUTS: SimulatorInputs = {
 export const INPUT_CONSTRAINTS = {
   userVkat: { min: 1, max: 100_000_000, step: 1000 },
   circulatingSupply: { min: 1_000_000_000, max: 10_000_000_000, step: 100_000_000 },
-  stakeRate: { min: 0.10, max: 0.70, step: 0.01 },
-  annualVolume: { min: 6_000_000_000, max: 100_000_000_000, step: 100_000_000 },
-  bribesPerEpoch: { min: 100_000, max: 1_000_000, step: 10_000 },
+  stakeRate: { min: 0.01, max: 0.70, step: 0.01 },
+  annualVolume: { min: 2_000_000_000, max: 100_000_000_000, step: 100_000_000 },
+  bribesPerEpoch: { min: 10_000, max: 1_000_000, step: 10_000 },
   katPrice: { min: 0.01, max: 1.00, step: 0.01 },
-  churnRate: { min: 0.05, max: 0.30, step: 0.01 },
-  avgExitFee: { min: 0.025, max: 0.25, step: 0.005 },
+  churnRate: { min: 0.05, max: 0.50, step: 0.01 },
+  avgExitFee: { min: 0.025, max: 0.50, step: 0.005 },
 } as const;
 
 /**
