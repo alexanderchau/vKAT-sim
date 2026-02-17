@@ -8,7 +8,7 @@ interface SliderInputProps {
   min: number;
   max: number;
   step: number;
-  format?: 'number' | 'currency' | 'percent' | 'volume' | 'token';
+  format?: 'number' | 'currency' | 'percent' | 'volume' | 'token' | 'bps';
   tooltip?: string;
 }
 
@@ -33,6 +33,8 @@ export function SliderInput({
         return formatPercent(val * 100, 1);
       case 'volume':
         return formatCurrency(val, 2);
+      case 'bps':
+        return `${(val * 10000).toFixed(1)} bps`;
       case 'token':
         // Format large token amounts without $ sign
         if (val >= 1_000_000_000) {
@@ -53,6 +55,8 @@ export function SliderInput({
 
     if (format === 'percent') {
       numValue = numValue / 100;
+    } else if (format === 'bps') {
+      numValue = numValue / 10000;
     }
 
     if (!isNaN(numValue)) {

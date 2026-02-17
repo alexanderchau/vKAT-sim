@@ -24,6 +24,7 @@ const baseCase: SimulatorInputs = {
   circulatingSupply: 2_000_000_000,
   stakeRate: 0.30,
   annualVolume: 4_800_000_000,
+  avgFeeRate: 0.0005,
   bribesPerEpoch: 100_000,
   katPrice: 0.10,
   churnRate: 0.15,

@@ -3,6 +3,7 @@ export interface SimulatorInputs {
   circulatingSupply: number;
   stakeRate: number;
   annualVolume: number;
+  avgFeeRate: number;
   bribesPerEpoch: number;
   katPrice: number;
   churnRate: number;

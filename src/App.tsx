@@ -138,6 +138,14 @@ function App() {
                 tooltip="Projected annual trading volume on Katana DEX"
               />
               <SliderInput
+                label="Avg Fee Rate"
+                value={inputs.avgFeeRate}
+                onChange={(v) => updateInput('avgFeeRate', v)}
+                {...INPUT_CONSTRAINTS.avgFeeRate}
+                format="bps"
+                tooltip="Volume-weighted average protocol fee across all pools"
+              />
+              <SliderInput
                 label="Epoch Bribe Pool"
                 value={inputs.bribesPerEpoch}
                 onChange={(v) => updateInput('bribesPerEpoch', v)}
@@ -174,8 +182,6 @@ function App() {
                 Protocol Constants
               </h4>
               <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs font-mono" style={{ color: 'var(--text-muted)' }}>
-                <div>Protocol Fee: 0.05%</div>
-                <div>LP Fee: 0.25%</div>
                 <div>Epoch Duration: {CONSTANTS.EPOCH_DURATION_DAYS}d</div>
                 <div>Epochs per Year: {CONSTANTS.EPOCHS_PER_YEAR}</div>
                 <div>Cooldown Period: {CONSTANTS.COOLDOWN_DAYS}d</div>

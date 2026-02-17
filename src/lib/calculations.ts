@@ -4,7 +4,6 @@ import type { SimulatorInputs, SimulatorOutputs, ScenarioPreset } from '../types
 export const CONSTANTS = {
   EPOCHS_PER_YEAR: 26,
   EPOCH_DURATION_DAYS: 14,
-  PROTOCOL_FEE_RATE: 0.0005, // 0.05%
   TOTAL_KAT_SUPPLY: 10_000_000_000,
   MIN_EXIT_FEE: 0.025, // 2.5% with full cooldown
   MAX_EXIT_FEE: 0.50, // 50% instant exit
@@ -17,6 +16,7 @@ export const DEFAULT_INPUTS: SimulatorInputs = {
   circulatingSupply: 2_000_000_000,
   stakeRate: 0.30,
   annualVolume: 6_000_000_000,
+  avgFeeRate: 0.0005,
   bribesPerEpoch: 100_000,
   katPrice: 0.10,
   churnRate: 0.15,
@@ -29,6 +29,7 @@ export const INPUT_CONSTRAINTS = {
   circulatingSupply: { min: 1_000_000_000, max: 10_000_000_000, step: 100_000_000 },
   stakeRate: { min: 0.01, max: 0.70, step: 0.01 },
   annualVolume: { min: 2_000_000_000, max: 100_000_000_000, step: 100_000_000 },
+  avgFeeRate: { min: 0.0001, max: 0.005, step: 0.0001 },
   bribesPerEpoch: { min: 10_000, max: 1_000_000, step: 10_000 },
   katPrice: { min: 0.01, max: 1.00, step: 0.01 },
   churnRate: { min: 0.05, max: 0.50, step: 0.01 },
@@ -44,6 +45,7 @@ export function calculateOutputs(inputs: SimulatorInputs): SimulatorOutputs {
     circulatingSupply,
     stakeRate,
     annualVolume,
+    avgFeeRate,
     bribesPerEpoch,
     katPrice,
     churnRate,
@@ -55,7 +57,7 @@ export function calculateOutputs(inputs: SimulatorInputs): SimulatorOutputs {
   const totalVkatStakedValue = totalVkatStaked * katPrice;
 
   // Revenue streams (USD)
-  const feeRevenue = annualVolume * CONSTANTS.PROTOCOL_FEE_RATE;
+  const feeRevenue = annualVolume * avgFeeRate;
   const bribeRevenue = bribesPerEpoch * CONSTANTS.EPOCHS_PER_YEAR;
   const exitFeeRevenue = totalVkatStakedValue * churnRate * avgExitFee;
 
