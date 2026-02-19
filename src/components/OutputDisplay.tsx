@@ -29,9 +29,9 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
         style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}
       >
         <div className="text-center">
-          <div className="stat-label">Projected APY</div>
+          <div className="stat-label">Your APY</div>
           <div className="text-2xl font-mono font-bold" style={{ color: 'var(--accent-primary)' }}>
-            {formatPercent(outputs.totalApy, 1)}
+            {formatPercent(roiPercent, 1)}
           </div>
         </div>
         <div className="text-center" style={{ borderLeft: '1px solid var(--border-subtle)', borderRight: '1px solid var(--border-subtle)' }}>
@@ -52,18 +52,18 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
       <div className="metric-panel">
         <div className="flex items-start justify-between">
           <div>
-            <div className="stat-label mb-1">Projected Annual Percentage Yield</div>
+            <div className="stat-label mb-1">Your Projected APY</div>
             <div className="stat-value-lg metric-highlight">
-              {formatPercent(outputs.totalApy, 1)}
+              {formatPercent(roiPercent, 1)}
             </div>
           </div>
           <div className="text-right">
-            <div className="stat-label mb-1">Effective ROI</div>
+            <div className="stat-label mb-1">System APY</div>
             <div
               className="text-xl font-mono font-semibold"
-              style={{ color: 'var(--success)' }}
+              style={{ color: 'var(--text-muted)' }}
             >
-              {formatPercent(roiPercent, 1)}
+              {formatPercent(outputs.totalApy, 1)}
             </div>
           </div>
         </div>
