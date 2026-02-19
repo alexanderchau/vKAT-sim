@@ -8,7 +8,7 @@ interface SliderInputProps {
   min: number;
   max: number;
   step: number;
-  format?: 'number' | 'currency' | 'percent' | 'volume' | 'token' | 'bps';
+  format?: 'number' | 'currency' | 'percent' | 'volume' | 'token' | 'bps' | 'multiplier';
   tooltip?: string;
 }
 
@@ -35,6 +35,8 @@ export function SliderInput({
         return formatCurrency(val, 2);
       case 'bps':
         return `${(val * 10000).toFixed(1)} bps`;
+      case 'multiplier':
+        return `${val.toFixed(1)}x`;
       case 'token':
         // Format large token amounts without $ sign
         if (val >= 1_000_000_000) {

@@ -21,6 +21,7 @@ export const DEFAULT_INPUTS: SimulatorInputs = {
   katPrice: 0.10,
   churnRate: 0.15,
   avgExitFee: 0.08,
+  voteBoost: 1.0,
 };
 
 // Input constraints
@@ -34,6 +35,7 @@ export const INPUT_CONSTRAINTS = {
   katPrice: { min: 0.01, max: 1.00, step: 0.01 },
   churnRate: { min: 0.05, max: 0.50, step: 0.01 },
   avgExitFee: { min: 0.025, max: 0.50, step: 0.005 },
+  voteBoost: { min: 1.0, max: 5.0, step: 0.1 },
 } as const;
 
 /**
@@ -50,6 +52,7 @@ export function calculateOutputs(inputs: SimulatorInputs): SimulatorOutputs {
     katPrice,
     churnRate,
     avgExitFee,
+    voteBoost,
   } = inputs;
 
   // Derived values
@@ -72,8 +75,12 @@ export function calculateOutputs(inputs: SimulatorInputs): SimulatorOutputs {
   const apyFromBribes = (bribeRevenue / totalVkatStaked / katPrice) * 100;
   const apyFromExitFees = (exitFeeRevenue / totalVkatStaked / katPrice) * 100;
 
-  // User-specific returns
-  const userAnnualYieldUsd = userVkat * yieldPerVkatUsd;
+  // User-specific returns (with vote boost)
+  // Boost increases user's effective votes, redistributing their share of total yield
+  const userEffectiveVkat = userVkat * voteBoost;
+  const adjustedTotalVkat = (totalVkatStaked - userVkat) + userEffectiveVkat;
+  const userShare = userEffectiveVkat / adjustedTotalVkat;
+  const userAnnualYieldUsd = totalYieldUsd * userShare;
   const userEpochYieldUsd = userAnnualYieldUsd / CONSTANTS.EPOCHS_PER_YEAR;
 
   // Break-even analysis: days to recover if user exits with instant fee

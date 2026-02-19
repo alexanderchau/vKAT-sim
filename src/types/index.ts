@@ -8,6 +8,7 @@ export interface SimulatorInputs {
   katPrice: number;
   churnRate: number;
   avgExitFee: number;
+  voteBoost: number;
 }
 
 export interface SimulatorOutputs {

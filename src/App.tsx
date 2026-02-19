@@ -108,6 +108,14 @@ function App() {
                 format="currency"
                 tooltip="Assumed KAT token price for calculations"
               />
+              <SliderInput
+                label="Vote Boost"
+                value={inputs.voteBoost}
+                onChange={(v) => updateInput('voteBoost', v)}
+                {...INPUT_CONSTRAINTS.voteBoost}
+                format="multiplier"
+                tooltip="Multiplier on your vote power — increases your share of fee distributions"
+              />
             </div>
 
             {/* Market Parameters */}
