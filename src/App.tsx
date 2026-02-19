@@ -15,7 +15,7 @@ import {
 } from './lib/calculations';
 import type { SimulatorInputs } from './types';
 
-const MODEL_VERSION = '1.0';
+const MODEL_VERSION = '1.3';
 
 function App() {
   const [inputs, setInputs] = useState<SimulatorInputs>(DEFAULT_INPUTS);
