@@ -23,7 +23,24 @@ export function SliderInput({
   tooltip,
 }: SliderInputProps) {
   const [showTooltip, setShowTooltip] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editText, setEditText] = useState('');
   const tooltipRef = useRef<HTMLSpanElement>(null);
+
+  const parseEditValue = (text: string): number | null => {
+    const raw = text.replace(/[^0-9.-]/g, '');
+    let num = parseFloat(raw);
+    if (isNaN(num)) return null;
+    if (format === 'percent') num = num / 100;
+    else if (format === 'bps') num = num / 10000;
+    return Math.max(min, Math.min(max, num));
+  };
+
+  const commitEdit = () => {
+    const parsed = parseEditValue(editText);
+    if (parsed !== null) onChange(parsed);
+    setIsEditing(false);
+  };
 
   const formatValue = (val: number): string => {
     switch (format) {
@@ -51,20 +68,6 @@ export function SliderInput({
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value.replace(/[^0-9.-]/g, '');
-    let numValue = parseFloat(rawValue);
-
-    if (format === 'percent') {
-      numValue = numValue / 100;
-    } else if (format === 'bps') {
-      numValue = numValue / 10000;
-    }
-
-    if (!isNaN(numValue)) {
-      onChange(Math.max(min, Math.min(max, numValue)));
-    }
-  };
 
   const handleTooltipToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -129,8 +132,14 @@ export function SliderInput({
         </label>
         <input
           type="text"
-          value={formatValue(value)}
-          onChange={handleInputChange}
+          value={isEditing ? editText : formatValue(value)}
+          onFocus={() => {
+            setIsEditing(true);
+            setEditText(formatValue(value));
+          }}
+          onChange={(e) => setEditText(e.target.value)}
+          onBlur={commitEdit}
+          onKeyDown={(e) => { if (e.key === 'Enter') commitEdit(); }}
           className="w-28 text-right text-sm font-mono px-2 py-1.5 rounded-md"
           style={{
             background: 'var(--bg-secondary)',
