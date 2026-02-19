@@ -109,7 +109,7 @@ function App() {
                 tooltip="Assumed KAT token price for calculations"
               />
               <SliderInput
-                label="Vote Boost"
+                label="Pre-staking Vote Boost"
                 value={inputs.voteBoost}
                 onChange={(v) => updateInput('voteBoost', v)}
                 {...INPUT_CONSTRAINTS.voteBoost}
