@@ -175,44 +175,6 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
         </div>
       </div>
 
-      {/* Protocol Revenue */}
-      <div className="card">
-        <h3 className="section-title">Aggregate Protocol Revenue (Annualized)</h3>
-        <div className="space-y-0">
-          <div className="data-row">
-            <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Trading Fee Revenue</span>
-            <span className="font-mono font-medium" style={{ color: 'var(--text-primary)' }}>
-              {formatCurrency(outputs.feeRevenue)}
-            </span>
-          </div>
-          <div className="data-row">
-            <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Bribe Revenue</span>
-            <span className="font-mono font-medium" style={{ color: 'var(--text-primary)' }}>
-              {formatCurrency(outputs.bribeRevenue)}
-            </span>
-          </div>
-          <div className="data-row">
-            <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Exit Fee Revenue</span>
-            <span className="font-mono font-medium" style={{ color: 'var(--text-primary)' }}>
-              {formatCurrency(outputs.exitFeeRevenue)}
-            </span>
-          </div>
-          <div className="data-row" style={{ marginTop: '8px', paddingTop: '12px', borderTop: '1px solid var(--border-color)' }}>
-            <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>Total Yield Pool</span>
-            <span className="font-mono font-bold text-lg" style={{ color: 'var(--accent-primary)' }}>{formatCurrency(outputs.totalYieldUsd)}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Yield per vKAT */}
-      <div className="info-panel">
-        <div className="flex justify-between items-center">
-          <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Annualized Yield per vKAT</span>
-          <span className="font-mono text-base font-semibold" style={{ color: 'var(--accent-primary)' }}>
-            ${outputs.yieldPerVkatUsd.toFixed(4)}
-          </span>
-        </div>
-      </div>
     </div>
   );
 }
