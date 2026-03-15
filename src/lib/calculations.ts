@@ -7,26 +7,35 @@ export const CONSTANTS = {
   TOTAL_KAT_SUPPLY: 10_000_000_000,
   MIN_EXIT_FEE: 0.025, // 2.5% with full cooldown
   MAX_EXIT_FEE: 0.80, // 80% instant exit
-  COOLDOWN_DAYS: 45,
+  COOLDOWN_DAYS: 60,
+  STABILIZATION_DAYS: 60,
 } as const;
 
-// Pre-staking vote boost schedule (4 epochs, 56 days)
+// Pre-staking vote boost schedule (4 epochs = 8 weeks)
 export const BOOST_SCHEDULE = [
-  { label: 'Day 0\u201314', boost: 3.0 },
-  { label: 'Day 15\u201328', boost: 2.5 },
-  { label: 'Day 29\u201342', boost: 2.0 },
-  { label: 'Day 43\u201356', boost: 1.5 },
-  { label: 'Day 57+', boost: 1.0 },
+  { label: 'Day 1\u201314', boost: 3.0, days: 14 },
+  { label: 'Day 15\u201328', boost: 2.5, days: 14 },
+  { label: 'Day 29\u201342', boost: 2.0, days: 14 },
+  { label: 'Day 43\u201356', boost: 1.5, days: 14 },
+  { label: 'Day 57+', boost: 1.0, days: 14 },
 ] as const;
 
-// Exit fee taper schedule (starts 80%, tapers to 25% over 4 epochs)
+// Exit fee taper (80% → 25% over 60-day stabilization, per blog)
 export const EXIT_FEE_SCHEDULE = [
-  { label: 'Day 0\u201314', fee: 0.80 },
+  { label: 'Day 1\u201314', fee: 0.80 },
   { label: 'Day 15\u201328', fee: 0.6625 },
   { label: 'Day 29\u201342', fee: 0.525 },
   { label: 'Day 43\u201356', fee: 0.3875 },
   { label: 'Day 57+', fee: 0.25 },
 ] as const;
+
+// Guaranteed yield parameters (per blog)
+export const GUARANTEED_YIELD = {
+  rate: 0.35, // 35% over 60 days
+  capKat: 350_000_000, // 350M KAT cap
+  maxPayoutKat: 123_000_000, // 123M KAT max treasury payout
+  periodDays: 60,
+} as const;
 
 // Default input values
 export const DEFAULT_INPUTS: SimulatorInputs = {
@@ -126,8 +135,8 @@ export function calculateOutputs(inputs: SimulatorInputs): SimulatorOutputs {
 }
 
 /**
- * Calculate returns across the 5-epoch schedule (4 boosted + steady state)
- * Uses the boost and exit fee schedules to compute per-epoch yields
+ * Calculate returns across the 60-day stabilization period + steady state
+ * Uses the boost and exit fee schedules with variable period lengths
  */
 export function calculateMultiEpochOutputs(inputs: SimulatorInputs): MultiEpochOutputs {
   const epochs: EpochResult[] = [];
@@ -141,30 +150,49 @@ export function calculateMultiEpochOutputs(inputs: SimulatorInputs): MultiEpochO
     };
     const epochOutputs = calculateOutputs(epochInputs);
 
-    cumulativeYield += epochOutputs.userEpochYieldUsd;
+    // Scale yield by actual period length (some periods are not 14 days)
+    const periodDays = BOOST_SCHEDULE[i].days;
+    const dailyYield = epochOutputs.userAnnualYieldUsd / 365;
+    const periodYield = dailyYield * periodDays;
+
+    cumulativeYield += periodYield;
 
     epochs.push({
       epoch: i + 1,
       label: BOOST_SCHEDULE[i].label,
       boost: BOOST_SCHEDULE[i].boost,
       exitFee: EXIT_FEE_SCHEDULE[i].fee,
-      userEpochYieldUsd: epochOutputs.userEpochYieldUsd,
+      userEpochYieldUsd: periodYield,
       cumulativeYieldUsd: cumulativeYield,
-      epochApy: (epochOutputs.userEpochYieldUsd * CONSTANTS.EPOCHS_PER_YEAR) / (inputs.userVkat * inputs.katPrice) * 100,
+      epochApy: (dailyYield * 365) / (inputs.userVkat * inputs.katPrice) * 100,
     });
   }
 
-  // Blended APY: annualize the 56-day (4-epoch) boosted return
-  // Use first 4 epochs (the boosted period) for the blended calculation
+  // Blended APY: annualize the 60-day stabilization return
   const boostedYield = epochs.slice(0, 4).reduce((sum, e) => sum + e.userEpochYieldUsd, 0);
-  const boostedDays = 4 * CONSTANTS.EPOCH_DURATION_DAYS;
+  const boostedDays = BOOST_SCHEDULE.slice(0, 4).reduce((sum, s) => sum + s.days, 0);
   const positionValue = inputs.userVkat * inputs.katPrice;
   const blendedApy = positionValue > 0 ? (boostedYield / positionValue) * (365 / boostedDays) * 100 : 0;
+
+  // Guaranteed yield: 35% over 60 days, capped at 350M KAT staked
+  const guaranteedYieldKat = inputs.userVkat * GUARANTEED_YIELD.rate;
+  const guaranteedYieldUsd = guaranteedYieldKat * inputs.katPrice;
+  const organicYieldUsd = boostedYield;
+  const isGuaranteeActive = inputs.userVkat <= GUARANTEED_YIELD.capKat &&
+    (inputs.circulatingSupply * inputs.stakeRate) <= GUARANTEED_YIELD.capKat;
+  const treasuryTopUpUsd = isGuaranteeActive ? Math.max(0, guaranteedYieldUsd - organicYieldUsd) : 0;
+  const effectiveYieldUsd = isGuaranteeActive ? Math.max(guaranteedYieldUsd, organicYieldUsd) : organicYieldUsd;
 
   return {
     epochs,
     totalYield56Days: boostedYield,
     blendedApy,
+    guaranteedYieldUsd,
+    guaranteedYieldKat,
+    organicYieldUsd,
+    treasuryTopUpUsd,
+    effectiveYieldUsd,
+    isGuaranteeActive,
   };
 }
 

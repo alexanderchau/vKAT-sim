@@ -57,7 +57,14 @@ export interface EpochResult {
 export interface MultiEpochOutputs {
   epochs: EpochResult[];
   totalYield56Days: number;
-  blendedApy: number; // annualized from the 56-day period
+  blendedApy: number;
+  // Guaranteed yield
+  guaranteedYieldUsd: number;
+  guaranteedYieldKat: number;
+  organicYieldUsd: number;
+  treasuryTopUpUsd: number;
+  effectiveYieldUsd: number;
+  isGuaranteeActive: boolean;
 }
 
 export type ChartDataPoint = {

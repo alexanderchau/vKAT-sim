@@ -171,7 +171,7 @@ function App() {
             {/* Boost Schedule */}
             <div className="info-panel">
               <h4 className="text-xs font-medium mb-3" style={{ color: 'var(--text-secondary)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                Vote Boost Schedule — 4 Epochs, 56 Days
+                Vote Boost — 8 Weeks (4 Epochs)
               </h4>
               <div className="grid grid-cols-5 gap-1 text-xs font-mono text-center">
                 {BOOST_SCHEDULE.map((s) => (
@@ -190,7 +190,7 @@ function App() {
             {/* Exit Fee Taper Schedule */}
             <div className="info-panel">
               <h4 className="text-xs font-medium mb-3" style={{ color: 'var(--text-secondary)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                Exit Fee Taper — 4 Epochs, 56 Days
+                Exit Fee Taper — 60-Day Stabilization
               </h4>
               <div className="grid grid-cols-5 gap-1 text-xs font-mono text-center">
                 {EXIT_FEE_SCHEDULE.map((s) => (

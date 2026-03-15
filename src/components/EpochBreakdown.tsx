@@ -1,5 +1,5 @@
 import type { MultiEpochOutputs } from '../types';
-import { formatCurrency, formatPercent, CONSTANTS } from '../lib/calculations';
+import { formatCurrency, formatPercent, formatNumber, CONSTANTS, GUARANTEED_YIELD } from '../lib/calculations';
 
 interface EpochBreakdownProps {
   multiEpoch: MultiEpochOutputs;
@@ -21,7 +21,7 @@ export function EpochBreakdown({ multiEpoch, katPrice, userVkat }: EpochBreakdow
       >
         <div>
           <div className="text-xs font-medium" style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            56-Day Boosted Return
+            60-Day Stabilization Return
           </div>
           <div className="font-mono font-bold text-lg" style={{ color: 'var(--accent-primary)' }}>
             +{formatCurrency(multiEpoch.totalYield56Days)}
@@ -98,6 +98,50 @@ export function EpochBreakdown({ multiEpoch, katPrice, userVkat }: EpochBreakdow
       {/* ROI note */}
       <div className="mt-3 text-xs" style={{ color: 'var(--text-muted)' }}>
         Position: {formatCurrency(positionValue)} &middot; {CONSTANTS.EPOCH_DURATION_DAYS}d epochs &middot; Boost period return on position: {positionValue > 0 ? formatPercent((multiEpoch.totalYield56Days / positionValue) * 100, 2) : '0%'}
+      </div>
+
+      {/* Guaranteed Yield */}
+      <div
+        className="mt-4 p-3 rounded-lg"
+        style={{
+          background: multiEpoch.isGuaranteeActive ? 'var(--success-subtle)' : 'var(--bg-elevated)',
+          border: `1px solid ${multiEpoch.isGuaranteeActive ? 'rgba(52, 167, 127, 0.25)' : 'var(--border-subtle)'}`,
+        }}
+      >
+        <div className="flex items-center justify-between mb-2">
+          <div className="text-xs font-medium" style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            Guaranteed Yield ({GUARANTEED_YIELD.periodDays}d) &middot; {multiEpoch.isGuaranteeActive ? 'Active' : 'Cap exceeded'}
+          </div>
+          <div className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>
+            Cap: {formatNumber(GUARANTEED_YIELD.capKat / 1_000_000)}M KAT
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          <div>
+            <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Guaranteed</div>
+            <div className="font-mono font-semibold text-sm" style={{ color: multiEpoch.isGuaranteeActive ? 'var(--success)' : 'var(--text-muted)' }}>
+              {formatCurrency(multiEpoch.guaranteedYieldUsd)}
+            </div>
+            <div className="text-xs font-mono" style={{ color: 'var(--text-dim)' }}>
+              {formatPercent(GUARANTEED_YIELD.rate * 100, 0)}
+            </div>
+          </div>
+          <div>
+            <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Organic</div>
+            <div className="font-mono font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>
+              {formatCurrency(multiEpoch.organicYieldUsd)}
+            </div>
+            <div className="text-xs font-mono" style={{ color: 'var(--text-dim)' }}>
+              {positionValue > 0 ? formatPercent((multiEpoch.organicYieldUsd / positionValue) * 100, 1) : '0%'}
+            </div>
+          </div>
+          <div>
+            <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Treasury Top-up</div>
+            <div className="font-mono font-semibold text-sm" style={{ color: multiEpoch.treasuryTopUpUsd > 0 ? 'var(--accent-primary)' : 'var(--text-muted)' }}>
+              {multiEpoch.treasuryTopUpUsd > 0 ? `+${formatCurrency(multiEpoch.treasuryTopUpUsd)}` : '\u2014'}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

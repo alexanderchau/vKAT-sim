@@ -19,7 +19,7 @@ export function Disclaimers() {
         </li>
         <li className="flex gap-3">
           <span className="font-mono font-medium" style={{ color: 'var(--text-muted)' }}>4.</span>
-          <span><strong style={{ color: 'var(--text-primary)', fontWeight: 500 }}>Exit cost considerations</strong> — The exit fee tapers from 80% to 25% over 4 epochs (56 days). Early exit materially impacts realized returns.</span>
+          <span><strong style={{ color: 'var(--text-primary)', fontWeight: 500 }}>Exit cost considerations</strong> — The exit fee tapers from 80% to 25% over the 60-day stabilization window. Early exit materially impacts realized returns.</span>
         </li>
         <li className="flex gap-3">
           <span className="font-mono font-medium" style={{ color: 'var(--text-muted)' }}>5.</span>
