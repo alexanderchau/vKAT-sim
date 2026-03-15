@@ -81,7 +81,7 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
 
       {/* APY Breakdown */}
       <div className="card">
-        <h3 className="section-title">Yield Composition</h3>
+        <h3 className="section-title">Your Yield Composition</h3>
         <div className="space-y-0">
           <div className="flex items-center justify-between py-3">
             <div className="flex items-center gap-3">
@@ -146,7 +146,7 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
 
       {/* Position Summary */}
       <div className="card">
-        <h3 className="section-title">Position Summary</h3>
+        <h3 className="section-title">Your Position Summary</h3>
         <div className="grid grid-cols-2 gap-5">
           <div>
             <div className="stat-label">Position Value</div>
