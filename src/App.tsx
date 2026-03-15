@@ -95,6 +95,9 @@ function App() {
                 format="currency"
                 tooltip="Assumed KAT token price for calculations"
               />
+              <div className="text-xs font-mono mt-1" style={{ color: 'var(--text-muted)', textAlign: 'right' }}>
+                Implied FDV: ${((inputs.katPrice * CONSTANTS.TOTAL_KAT_SUPPLY) / 1_000_000).toFixed(0)}M
+              </div>
             </div>
 
             {/* Market Parameters */}
