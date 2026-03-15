@@ -1,4 +1,4 @@
-import type { SimulatorInputs, SimulatorOutputs, ScenarioPreset } from '../types';
+import type { SimulatorInputs, SimulatorOutputs, ScenarioPreset, EpochResult, MultiEpochOutputs } from '../types';
 
 // Fixed constants from the brief
 export const CONSTANTS = {
@@ -122,6 +122,49 @@ export function calculateOutputs(inputs: SimulatorInputs): SimulatorOutputs {
     userAnnualYieldUsd,
     userEpochYieldUsd,
     breakEvenDays,
+  };
+}
+
+/**
+ * Calculate returns across the 5-epoch schedule (4 boosted + steady state)
+ * Uses the boost and exit fee schedules to compute per-epoch yields
+ */
+export function calculateMultiEpochOutputs(inputs: SimulatorInputs): MultiEpochOutputs {
+  const epochs: EpochResult[] = [];
+  let cumulativeYield = 0;
+
+  for (let i = 0; i < BOOST_SCHEDULE.length; i++) {
+    const epochInputs: SimulatorInputs = {
+      ...inputs,
+      voteBoost: BOOST_SCHEDULE[i].boost,
+      avgExitFee: EXIT_FEE_SCHEDULE[i].fee,
+    };
+    const epochOutputs = calculateOutputs(epochInputs);
+
+    cumulativeYield += epochOutputs.userEpochYieldUsd;
+
+    epochs.push({
+      epoch: i + 1,
+      label: BOOST_SCHEDULE[i].label,
+      boost: BOOST_SCHEDULE[i].boost,
+      exitFee: EXIT_FEE_SCHEDULE[i].fee,
+      userEpochYieldUsd: epochOutputs.userEpochYieldUsd,
+      cumulativeYieldUsd: cumulativeYield,
+      epochApy: (epochOutputs.userEpochYieldUsd * CONSTANTS.EPOCHS_PER_YEAR) / (inputs.userVkat * inputs.katPrice) * 100,
+    });
+  }
+
+  // Blended APY: annualize the 56-day (4-epoch) boosted return
+  // Use first 4 epochs (the boosted period) for the blended calculation
+  const boostedYield = epochs.slice(0, 4).reduce((sum, e) => sum + e.userEpochYieldUsd, 0);
+  const boostedDays = 4 * CONSTANTS.EPOCH_DURATION_DAYS;
+  const positionValue = inputs.userVkat * inputs.katPrice;
+  const blendedApy = positionValue > 0 ? (boostedYield / positionValue) * (365 / boostedDays) * 100 : 0;
+
+  return {
+    epochs,
+    totalYield56Days: boostedYield,
+    blendedApy,
   };
 }
 

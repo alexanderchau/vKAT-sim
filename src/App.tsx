@@ -5,9 +5,11 @@ import {
   ScenarioPresets,
   SensitivityCharts,
   Disclaimers,
+  EpochBreakdown,
 } from './components';
 import {
   calculateOutputs,
+  calculateMultiEpochOutputs,
   DEFAULT_INPUTS,
   INPUT_CONSTRAINTS,
   SCENARIO_PRESETS,
@@ -17,13 +19,14 @@ import {
 } from './lib/calculations';
 import type { SimulatorInputs } from './types';
 
-const MODEL_VERSION = '1.3';
+const MODEL_VERSION = '1.4';
 
 function App() {
   const [inputs, setInputs] = useState<SimulatorInputs>(DEFAULT_INPUTS);
   const [activeScenario, setActiveScenario] = useState<string | null>('Base');
 
   const outputs = useMemo(() => calculateOutputs(inputs), [inputs]);
+  const multiEpoch = useMemo(() => calculateMultiEpochOutputs(inputs), [inputs]);
 
   const updateInput = useCallback((key: keyof SimulatorInputs, value: number) => {
     setInputs((prev) => ({ ...prev, [key]: value }));
@@ -110,14 +113,6 @@ function App() {
                 format="currency"
                 tooltip="Assumed KAT token price for calculations"
               />
-              <SliderInput
-                label="Pre-staking Vote Boost"
-                value={inputs.voteBoost}
-                onChange={(v) => updateInput('voteBoost', v)}
-                {...INPUT_CONSTRAINTS.voteBoost}
-                format="multiplier"
-                tooltip="Multiplier on your vote power — increases your share of fee distributions"
-              />
             </div>
 
             {/* Market Parameters */}
@@ -175,14 +170,6 @@ function App() {
                 {...INPUT_CONSTRAINTS.churnRate}
                 format="percent"
                 tooltip="Estimated percentage of vKAT exiting annually"
-              />
-              <SliderInput
-                label="Blended Exit Fee"
-                value={inputs.avgExitFee}
-                onChange={(v) => updateInput('avgExitFee', v)}
-                {...INPUT_CONSTRAINTS.avgExitFee}
-                format="percent"
-                tooltip="Weighted average exit fee (2.5% cooldown to 80% instant)"
               />
             </div>
 
@@ -244,6 +231,12 @@ function App() {
               outputs={outputs}
               userVkat={inputs.userVkat}
               katPrice={inputs.katPrice}
+            />
+
+            <EpochBreakdown
+              multiEpoch={multiEpoch}
+              katPrice={inputs.katPrice}
+              userVkat={inputs.userVkat}
             />
 
             <SensitivityCharts inputs={inputs} outputs={outputs} />

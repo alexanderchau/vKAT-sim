@@ -44,6 +44,22 @@ export interface ScenarioPreset {
   inputs: Partial<SimulatorInputs>;
 }
 
+export interface EpochResult {
+  epoch: number;
+  label: string;
+  boost: number;
+  exitFee: number;
+  userEpochYieldUsd: number;
+  cumulativeYieldUsd: number;
+  epochApy: number; // annualized APY for this epoch
+}
+
+export interface MultiEpochOutputs {
+  epochs: EpochResult[];
+  totalYield56Days: number;
+  blendedApy: number; // annualized from the 56-day period
+}
+
 export type ChartDataPoint = {
   x: number;
   y: number;
