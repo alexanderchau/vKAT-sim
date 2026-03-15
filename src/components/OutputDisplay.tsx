@@ -155,7 +155,7 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
             </div>
           </div>
           <div>
-            <div className="stat-label">vKAT Holdings</div>
+            <div className="stat-label">KAT Holdings</div>
             <div className="stat-value">
               {formatNumber(userVkat)}
             </div>
