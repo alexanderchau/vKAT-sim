@@ -42,7 +42,7 @@ export const DEFAULT_INPUTS: SimulatorInputs = {
   userVkat: 100_000,
   circulatingSupply: 2_000_000_000,
   stakeRate: 0.30,
-  annualVolume: 5_000_000_000,
+  annualVolume: 3_600_000_000,
   avgFeeRate: 0.0005,
   bribesPerEpoch: 100_000,
   katPrice: 0.10,
@@ -286,7 +286,7 @@ export const SCENARIO_PRESETS: ScenarioPreset[] = [
     name: 'Bear',
     description: 'Conservative assumptions',
     inputs: {
-      annualVolume: 5_000_000_000,
+      annualVolume: 3_600_000_000,
       bribesPerEpoch: 100_000,
     },
   },
