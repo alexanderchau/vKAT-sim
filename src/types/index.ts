@@ -50,7 +50,9 @@ export interface EpochResult {
   boost: number;
   exitFee: number;
   userEpochYieldUsd: number;
+  userEpochYieldKat: number;
   cumulativeYieldUsd: number;
+  cumulativeYieldKat: number;
   epochApy: number; // annualized APY for this epoch
 }
 

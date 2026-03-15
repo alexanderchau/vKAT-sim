@@ -52,10 +52,10 @@ export function EpochBreakdown({ multiEpoch, katPrice, userVkat }: EpochBreakdow
                 Exit Fee
               </th>
               <th className="text-right py-2 text-xs font-medium" style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                Epoch Yield
+                Earned (KAT)
               </th>
               <th className="text-right py-2 text-xs font-medium" style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                Cumulative
+                Total (KAT)
               </th>
               <th className="text-right py-2 text-xs font-medium" style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 APY
@@ -80,11 +80,21 @@ export function EpochBreakdown({ multiEpoch, katPrice, userVkat }: EpochBreakdow
                 <td className="py-2.5 text-center font-mono" style={{ color: 'var(--text-secondary)' }}>
                   {(epoch.exitFee * 100).toFixed(epoch.exitFee * 100 % 1 === 0 ? 0 : 1)}%
                 </td>
-                <td className="py-2.5 text-right font-mono font-medium" style={{ color: 'var(--success)' }}>
-                  +{formatCurrency(epoch.userEpochYieldUsd)}
+                <td className="py-2.5 text-right">
+                  <div className="font-mono font-medium" style={{ color: 'var(--success)' }}>
+                    +{formatNumber(Math.round(epoch.userEpochYieldKat))} KAT
+                  </div>
+                  <div className="text-xs font-mono" style={{ color: 'var(--text-dim)' }}>
+                    {formatCurrency(epoch.userEpochYieldUsd)}
+                  </div>
                 </td>
-                <td className="py-2.5 text-right font-mono" style={{ color: 'var(--text-primary)' }}>
-                  {formatCurrency(epoch.cumulativeYieldUsd)}
+                <td className="py-2.5 text-right">
+                  <div className="font-mono font-medium" style={{ color: 'var(--text-primary)' }}>
+                    {formatNumber(Math.round(epoch.cumulativeYieldKat))} KAT
+                  </div>
+                  <div className="text-xs font-mono" style={{ color: 'var(--text-dim)' }}>
+                    {formatCurrency(epoch.cumulativeYieldUsd)}
+                  </div>
                 </td>
                 <td className="py-2.5 text-right font-mono font-medium" style={{ color: 'var(--text-primary)' }}>
                   {formatPercent(epoch.epochApy, 1)}
@@ -110,7 +120,7 @@ export function EpochBreakdown({ multiEpoch, katPrice, userVkat }: EpochBreakdow
       >
         <div className="flex items-center justify-between mb-2">
           <div className="text-xs font-medium" style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Guaranteed Yield ({GUARANTEED_YIELD.periodDays}d) &middot; {multiEpoch.isGuaranteeActive ? 'Active' : 'Cap exceeded'}
+            Guaranteed Yield ({GUARANTEED_YIELD.periodDays}d &middot; {GUARANTEED_YIELD.apy}% APY) &middot; {multiEpoch.isGuaranteeActive ? 'Active' : 'Cap exceeded'}
           </div>
           <div className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>
             Cap: {formatNumber(GUARANTEED_YIELD.capKat / 1_000_000)}M KAT
@@ -120,26 +130,31 @@ export function EpochBreakdown({ multiEpoch, katPrice, userVkat }: EpochBreakdow
           <div>
             <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Guaranteed</div>
             <div className="font-mono font-semibold text-sm" style={{ color: multiEpoch.isGuaranteeActive ? 'var(--success)' : 'var(--text-muted)' }}>
-              {formatCurrency(multiEpoch.guaranteedYieldUsd)}
+              {formatNumber(Math.round(multiEpoch.guaranteedYieldKat))} KAT
             </div>
             <div className="text-xs font-mono" style={{ color: 'var(--text-dim)' }}>
-              {formatPercent(GUARANTEED_YIELD.rate * 100, 0)}
+              {formatPercent(GUARANTEED_YIELD.rate * 100, 0)} &middot; {formatCurrency(multiEpoch.guaranteedYieldUsd)}
             </div>
           </div>
           <div>
             <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Organic</div>
             <div className="font-mono font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>
-              {formatCurrency(multiEpoch.organicYieldUsd)}
+              {katPrice > 0 ? `${formatNumber(Math.round(multiEpoch.organicYieldUsd / katPrice))} KAT` : '\u2014'}
             </div>
             <div className="text-xs font-mono" style={{ color: 'var(--text-dim)' }}>
-              {positionValue > 0 ? formatPercent((multiEpoch.organicYieldUsd / positionValue) * 100, 1) : '0%'}
+              {positionValue > 0 ? formatPercent((multiEpoch.organicYieldUsd / positionValue) * 100, 1) : '0%'} &middot; {formatCurrency(multiEpoch.organicYieldUsd)}
             </div>
           </div>
           <div>
             <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Treasury Top-up</div>
             <div className="font-mono font-semibold text-sm" style={{ color: multiEpoch.treasuryTopUpUsd > 0 ? 'var(--accent-primary)' : 'var(--text-muted)' }}>
-              {multiEpoch.treasuryTopUpUsd > 0 ? `+${formatCurrency(multiEpoch.treasuryTopUpUsd)}` : '\u2014'}
+              {multiEpoch.treasuryTopUpUsd > 0 ? `+${formatNumber(Math.round(multiEpoch.treasuryTopUpUsd / katPrice))} KAT` : '\u2014'}
             </div>
+            {multiEpoch.treasuryTopUpUsd > 0 && (
+              <div className="text-xs font-mono" style={{ color: 'var(--text-dim)' }}>
+                {formatCurrency(multiEpoch.treasuryTopUpUsd)}
+              </div>
+            )}
           </div>
         </div>
       </div>

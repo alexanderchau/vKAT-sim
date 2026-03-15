@@ -32,20 +32,21 @@ export const EXIT_FEE_SCHEDULE = [
 // Guaranteed yield parameters (per blog)
 export const GUARANTEED_YIELD = {
   rate: 0.35, // 35% over 60 days
+  apy: 212, // 212% APY equivalent
   capKat: 350_000_000, // 350M KAT cap
   maxPayoutKat: 123_000_000, // 123M KAT max treasury payout
   periodDays: 60,
 } as const;
 
-// Default input values
+// Default input values (calibrated to LP brief: 110M FDV, $287.5K/mo protocol rev)
 export const DEFAULT_INPUTS: SimulatorInputs = {
-  userVkat: 100_000,
+  userVkat: 1_000_000,
   circulatingSupply: 2_000_000_000,
   stakeRate: 0.30,
-  annualVolume: 3_600_000_000,
+  annualVolume: 1_700_000_000,
   avgFeeRate: 0.0005,
-  bribesPerEpoch: 100_000,
-  katPrice: 0.10,
+  bribesPerEpoch: 200_000,
+  katPrice: 0.011,
   churnRate: 0.15,
   avgExitFee: 0.80,
   voteBoost: 3.0,
@@ -140,7 +141,8 @@ export function calculateOutputs(inputs: SimulatorInputs): SimulatorOutputs {
  */
 export function calculateMultiEpochOutputs(inputs: SimulatorInputs): MultiEpochOutputs {
   const epochs: EpochResult[] = [];
-  let cumulativeYield = 0;
+  let cumulativeYieldUsd = 0;
+  let cumulativeYieldKat = 0;
 
   for (let i = 0; i < BOOST_SCHEDULE.length; i++) {
     const epochInputs: SimulatorInputs = {
@@ -154,8 +156,10 @@ export function calculateMultiEpochOutputs(inputs: SimulatorInputs): MultiEpochO
     const periodDays = BOOST_SCHEDULE[i].days;
     const dailyYield = epochOutputs.userAnnualYieldUsd / 365;
     const periodYield = dailyYield * periodDays;
+    const periodYieldKat = inputs.katPrice > 0 ? periodYield / inputs.katPrice : 0;
 
-    cumulativeYield += periodYield;
+    cumulativeYieldUsd += periodYield;
+    cumulativeYieldKat += periodYieldKat;
 
     epochs.push({
       epoch: i + 1,
@@ -163,7 +167,9 @@ export function calculateMultiEpochOutputs(inputs: SimulatorInputs): MultiEpochO
       boost: BOOST_SCHEDULE[i].boost,
       exitFee: EXIT_FEE_SCHEDULE[i].fee,
       userEpochYieldUsd: periodYield,
-      cumulativeYieldUsd: cumulativeYield,
+      userEpochYieldKat: periodYieldKat,
+      cumulativeYieldUsd: cumulativeYieldUsd,
+      cumulativeYieldKat: cumulativeYieldKat,
       epochApy: (dailyYield * 365) / (inputs.userVkat * inputs.katPrice) * 100,
     });
   }
@@ -174,7 +180,7 @@ export function calculateMultiEpochOutputs(inputs: SimulatorInputs): MultiEpochO
   const positionValue = inputs.userVkat * inputs.katPrice;
   const blendedApy = positionValue > 0 ? (boostedYield / positionValue) * (365 / boostedDays) * 100 : 0;
 
-  // Guaranteed yield: 35% over 60 days, capped at 350M KAT staked
+  // Guaranteed yield: 35% over 60 days (212% APY), capped at 350M KAT staked
   const guaranteedYieldKat = inputs.userVkat * GUARANTEED_YIELD.rate;
   const guaranteedYieldUsd = guaranteedYieldKat * inputs.katPrice;
   const organicYieldUsd = boostedYield;
