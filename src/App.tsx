@@ -117,7 +117,7 @@ function App() {
                 tooltip="Percentage of circulating supply locked as vKAT"
               />
               <SliderInput
-                label="Annual Trading Volume"
+                label="Annual DEX Volume"
                 value={inputs.annualVolume}
                 onChange={(v) => updateInput('annualVolume', v)}
                 {...INPUT_CONSTRAINTS.annualVolume}
