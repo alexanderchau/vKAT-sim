@@ -21,7 +21,7 @@ export function EpochBreakdown({ multiEpoch, katPrice, userVkat }: EpochBreakdow
       >
         <div>
           <div className="text-xs font-medium" style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            60-Day Stabilization Return
+            60-Day Boosted Return
           </div>
           <div className="font-mono font-bold text-lg" style={{ color: 'var(--accent-primary)' }}>
             +{formatCurrency(multiEpoch.totalYield56Days)}
