@@ -180,7 +180,7 @@ function App() {
                 onChange={(v) => updateInput('avgExitFee', v)}
                 {...INPUT_CONSTRAINTS.avgExitFee}
                 format="percent"
-                tooltip="Weighted average exit fee (2.5% cooldown to 25% instant)"
+                tooltip="Weighted average exit fee (2.5% cooldown to 80% instant)"
               />
             </div>
 

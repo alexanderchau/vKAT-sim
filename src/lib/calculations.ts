@@ -6,7 +6,7 @@ export const CONSTANTS = {
   EPOCH_DURATION_DAYS: 14,
   TOTAL_KAT_SUPPLY: 10_000_000_000,
   MIN_EXIT_FEE: 0.025, // 2.5% with full cooldown
-  MAX_EXIT_FEE: 0.50, // 50% instant exit
+  MAX_EXIT_FEE: 0.80, // 80% instant exit
   COOLDOWN_DAYS: 45,
 } as const;
 
@@ -20,7 +20,7 @@ export const DEFAULT_INPUTS: SimulatorInputs = {
   bribesPerEpoch: 100_000,
   katPrice: 0.10,
   churnRate: 0.15,
-  avgExitFee: 0.08,
+  avgExitFee: 0.80,
   voteBoost: 1.0,
 };
 
@@ -32,9 +32,9 @@ export const INPUT_CONSTRAINTS = {
   annualVolume: { min: 2_000_000_000, max: 100_000_000_000, step: 100_000_000 },
   avgFeeRate: { min: 0.0001, max: 0.005, step: 0.0001 },
   bribesPerEpoch: { min: 10_000, max: 1_000_000, step: 10_000 },
-  katPrice: { min: 0.01, max: 1.00, step: 0.01 },
+  katPrice: { min: 0.01, max: 0.50, step: 0.01 },
   churnRate: { min: 0.05, max: 0.50, step: 0.01 },
-  avgExitFee: { min: 0.025, max: 0.50, step: 0.005 },
+  avgExitFee: { min: 0.025, max: 0.80, step: 0.005 },
   voteBoost: { min: 1.0, max: 5.0, step: 0.1 },
 } as const;
 
@@ -84,7 +84,7 @@ export function calculateOutputs(inputs: SimulatorInputs): SimulatorOutputs {
   const userEpochYieldUsd = userAnnualYieldUsd / CONSTANTS.EPOCHS_PER_YEAR;
 
   // Break-even analysis: days to recover if user exits with instant fee
-  // Assuming worst case instant exit fee of 25%
+  // Assuming worst case instant exit fee of 80%
   const userPositionValue = userVkat * katPrice;
   const instantExitCost = userPositionValue * CONSTANTS.MAX_EXIT_FEE;
   const dailyYield = userAnnualYieldUsd / 365;
