@@ -1,33 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  /* Katana brand theme - deep navy + gold */
-  --bg-primary: #0a1628;
-  --bg-secondary: #0e1c34;
-  --bg-card: #132242;
-  --bg-card-hover: #18294e;
-  --bg-elevated: #1d305a;
-  --border-color: #263d6a;
-  --border-subtle: #1a2d52;
-  --border-accent: #335089;
+  /* Neutral dark theme with Katana accents */
+  --bg-primary: #111214;
+  --bg-secondary: #18191c;
+  --bg-card: #1e2024;
+  --bg-card-hover: #25272c;
+  --bg-elevated: #2a2d33;
+  --border-color: #32363e;
+  --border-subtle: #262930;
+  --border-accent: #3e424c;
 
-  /* Text colors - high readability on navy */
-  --text-primary: #e8ecf4;
-  --text-secondary: #94a3c0;
-  --text-muted: #6b7ea0;
-  --text-dim: #4a5e82;
+  /* Text colors */
+  --text-primary: #e4e5e8;
+  --text-secondary: #a0a3ab;
+  --text-muted: #6e727c;
+  --text-dim: #4a4e58;
 
-  /* Katana gold accent */
+  /* Katana accents — navy for structural, gold for highlights */
   --accent-primary: #c9b44e;
   --accent-primary-hover: #d9c55e;
-  --accent-secondary: #b8a340;
-  --accent-subtle: rgba(201, 180, 78, 0.12);
+  --accent-secondary: #2d4a7a;
+  --accent-subtle: rgba(201, 180, 78, 0.10);
 
   /* Status colors */
   --success: #34a77f;
-  --success-subtle: rgba(52, 167, 127, 0.12);
+  --success-subtle: rgba(52, 167, 127, 0.10);
   --warning: #d4a034;
-  --warning-subtle: rgba(212, 160, 52, 0.10);
+  --warning-subtle: rgba(212, 160, 52, 0.08);
   --danger: #d9534f;
   --info: #5a9fd4;
 
@@ -35,7 +35,7 @@
   --chart-blue: #5a9fd4;
   --chart-green: #34a77f;
   --chart-amber: #c9b44e;
-  --chart-grid: #1a2d52;
+  --chart-grid: #262930;
 
   /* Spacing scale */
   --space-xs: 4px;
@@ -384,8 +384,8 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* Primary metric panel */
 .metric-panel {
-  background: linear-gradient(135deg, var(--accent-subtle) 0%, rgba(201, 180, 78, 0.06) 100%);
-  border: 1px solid rgba(201, 180, 78, 0.2);
+  background: linear-gradient(135deg, var(--accent-subtle) 0%, rgba(201, 180, 78, 0.04) 100%);
+  border: 1px solid rgba(201, 180, 78, 0.15);
   border-radius: var(--radius-xl);
   padding: var(--space-xl);
 }

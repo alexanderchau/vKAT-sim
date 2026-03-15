@@ -2,8 +2,6 @@ import { useState, useMemo, useCallback } from 'react';
 import {
   SliderInput,
   OutputDisplay,
-  ScenarioPresets,
-  SensitivityCharts,
   Disclaimers,
   EpochBreakdown,
 } from './components';
@@ -12,7 +10,6 @@ import {
   calculateMultiEpochOutputs,
   DEFAULT_INPUTS,
   INPUT_CONSTRAINTS,
-  SCENARIO_PRESETS,
   CONSTANTS,
   BOOST_SCHEDULE,
   EXIT_FEE_SCHEDULE,
@@ -23,27 +20,16 @@ const MODEL_VERSION = '1.4';
 
 function App() {
   const [inputs, setInputs] = useState<SimulatorInputs>(DEFAULT_INPUTS);
-  const [activeScenario, setActiveScenario] = useState<string | null>('Base');
 
   const outputs = useMemo(() => calculateOutputs(inputs), [inputs]);
   const multiEpoch = useMemo(() => calculateMultiEpochOutputs(inputs), [inputs]);
 
   const updateInput = useCallback((key: keyof SimulatorInputs, value: number) => {
     setInputs((prev) => ({ ...prev, [key]: value }));
-    setActiveScenario(null);
-  }, []);
-
-  const handleScenarioSelect = useCallback((scenarioInputs: Partial<SimulatorInputs>) => {
-    setInputs((prev) => ({ ...prev, ...scenarioInputs }));
-    const scenario = SCENARIO_PRESETS.find(
-      (s) => JSON.stringify(s.inputs) === JSON.stringify(scenarioInputs)
-    );
-    setActiveScenario(scenario?.name || null);
   }, []);
 
   const handleReset = useCallback(() => {
     setInputs(DEFAULT_INPUTS);
-    setActiveScenario('Base');
   }, []);
 
   return (
@@ -89,11 +75,6 @@ function App() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - Inputs */}
           <div className="lg:col-span-1 space-y-5">
-            {/* Scenario Presets */}
-            <div className="card">
-              <ScenarioPresets onSelect={handleScenarioSelect} activeScenario={activeScenario} />
-            </div>
-
             {/* Your Position */}
             <div className="card">
               <h3 className="section-title">Position Parameters</h3>
@@ -239,7 +220,7 @@ function App() {
               userVkat={inputs.userVkat}
             />
 
-            <SensitivityCharts inputs={inputs} outputs={outputs} />
+
 
             <Disclaimers />
           </div>
