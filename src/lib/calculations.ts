@@ -59,7 +59,7 @@ export const INPUT_CONSTRAINTS = {
   annualVolume: { min: 500_000_000, max: 5_000_000_000, step: 100_000_000 },
   avgFeeRate: { min: 0.0001, max: 0.003, step: 0.0001 },
   bribesPerEpoch: { min: 10_000, max: 500_000, step: 10_000 },
-  katPrice: { min: 0.01, max: 0.50, step: 0.01 },
+  katPrice: { min: 0.001, max: 0.50, step: 0.001 },
   churnRate: { min: 0.05, max: 0.50, step: 0.01 },
   avgExitFee: { min: 0.025, max: 0.80, step: 0.005 },
   voteBoost: { min: 1.0, max: 3.0, step: 0.5 },

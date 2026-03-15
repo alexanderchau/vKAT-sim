@@ -45,7 +45,7 @@ export function SliderInput({
   const formatValue = (val: number): string => {
     switch (format) {
       case 'currency':
-        return formatCurrency(val, 2);
+        return formatCurrency(val, val < 1 ? 3 : 2);
       case 'percent':
         return formatPercent(val * 100, 1);
       case 'volume':
