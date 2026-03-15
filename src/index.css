@@ -1,29 +1,29 @@
 @import "tailwindcss";
 
 :root {
-  /* Professional dark theme - inspired by Bloomberg/institutional finance */
-  --bg-primary: #0c0d10;
-  --bg-secondary: #12141a;
-  --bg-card: #181b22;
-  --bg-card-hover: #1e222b;
-  --bg-elevated: #22262f;
-  --border-color: #2a2f3a;
-  --border-subtle: #1e2228;
-  --border-accent: #3d4554;
+  /* Katana brand theme - deep navy + gold */
+  --bg-primary: #0a1628;
+  --bg-secondary: #0e1c34;
+  --bg-card: #132242;
+  --bg-card-hover: #18294e;
+  --bg-elevated: #1d305a;
+  --border-color: #263d6a;
+  --border-subtle: #1a2d52;
+  --border-accent: #335089;
 
-  /* Text colors - high readability */
-  --text-primary: #e8eaed;
-  --text-secondary: #a8adb8;
-  --text-muted: #7a818c;
-  --text-dim: #4b5563;
+  /* Text colors - high readability on navy */
+  --text-primary: #e8ecf4;
+  --text-secondary: #94a3c0;
+  --text-muted: #6b7ea0;
+  --text-dim: #4a5e82;
 
-  /* Professional accent - muted blue (trustworthy, institutional) */
-  --accent-primary: #4a90d9;
-  --accent-primary-hover: #5ba0e9;
-  --accent-secondary: #3b7cc4;
-  --accent-subtle: rgba(74, 144, 217, 0.12);
+  /* Katana gold accent */
+  --accent-primary: #c9b44e;
+  --accent-primary-hover: #d9c55e;
+  --accent-secondary: #b8a340;
+  --accent-subtle: rgba(201, 180, 78, 0.12);
 
-  /* Status colors - muted for professionalism */
+  /* Status colors */
   --success: #34a77f;
   --success-subtle: rgba(52, 167, 127, 0.12);
   --warning: #d4a034;
@@ -32,10 +32,10 @@
   --info: #5a9fd4;
 
   /* Data visualization */
-  --chart-blue: #4a90d9;
+  --chart-blue: #5a9fd4;
   --chart-green: #34a77f;
-  --chart-amber: #d4a034;
-  --chart-grid: #252a35;
+  --chart-amber: #c9b44e;
+  --chart-grid: #1a2d52;
 
   /* Spacing scale */
   --space-xs: 4px;
@@ -384,8 +384,8 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* Primary metric panel */
 .metric-panel {
-  background: linear-gradient(135deg, var(--accent-subtle) 0%, rgba(74, 144, 217, 0.06) 100%);
-  border: 1px solid rgba(74, 144, 217, 0.2);
+  background: linear-gradient(135deg, var(--accent-subtle) 0%, rgba(201, 180, 78, 0.06) 100%);
+  border: 1px solid rgba(201, 180, 78, 0.2);
   border-radius: var(--radius-xl);
   padding: var(--space-xl);
 }

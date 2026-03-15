@@ -12,6 +12,8 @@ import {
   INPUT_CONSTRAINTS,
   SCENARIO_PRESETS,
   CONSTANTS,
+  BOOST_SCHEDULE,
+  EXIT_FEE_SCHEDULE,
 } from './lib/calculations';
 import type { SimulatorInputs } from './types';
 
@@ -194,6 +196,44 @@ function App() {
                 <div>Epochs per Year: {CONSTANTS.EPOCHS_PER_YEAR}</div>
                 <div>Cooldown Period: {CONSTANTS.COOLDOWN_DAYS}d</div>
                 <div>Max Exit Fee: {CONSTANTS.MAX_EXIT_FEE * 100}%</div>
+              </div>
+            </div>
+
+            {/* Boost Schedule */}
+            <div className="info-panel">
+              <h4 className="text-xs font-medium mb-3" style={{ color: 'var(--text-secondary)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                Vote Boost Schedule — 4 Epochs, 56 Days
+              </h4>
+              <div className="grid grid-cols-5 gap-1 text-xs font-mono text-center">
+                {BOOST_SCHEDULE.map((s) => (
+                  <div key={s.label} className="px-1 py-1.5 rounded" style={{ background: 'var(--bg-elevated)', color: 'var(--text-muted)' }}>
+                    {s.label}
+                  </div>
+                ))}
+                {BOOST_SCHEDULE.map((s) => (
+                  <div key={s.label + '-v'} className="px-1 py-1.5 font-medium" style={{ color: 'var(--text-primary)' }}>
+                    {s.boost.toFixed(1)}x
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Exit Fee Taper Schedule */}
+            <div className="info-panel">
+              <h4 className="text-xs font-medium mb-3" style={{ color: 'var(--text-secondary)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                Exit Fee Taper — 4 Epochs, 56 Days
+              </h4>
+              <div className="grid grid-cols-5 gap-1 text-xs font-mono text-center">
+                {EXIT_FEE_SCHEDULE.map((s) => (
+                  <div key={s.label} className="px-1 py-1.5 rounded" style={{ background: 'var(--bg-elevated)', color: 'var(--text-muted)' }}>
+                    {s.label}
+                  </div>
+                ))}
+                {EXIT_FEE_SCHEDULE.map((s) => (
+                  <div key={s.label + '-v'} className="px-1 py-1.5 font-medium" style={{ color: 'var(--text-primary)' }}>
+                    {(s.fee * 100).toFixed(s.fee * 100 % 1 === 0 ? 0 : 1)}%
+                  </div>
+                ))}
               </div>
             </div>
           </div>

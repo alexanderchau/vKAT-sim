@@ -10,6 +10,24 @@ export const CONSTANTS = {
   COOLDOWN_DAYS: 45,
 } as const;
 
+// Pre-staking vote boost schedule (4 epochs, 56 days)
+export const BOOST_SCHEDULE = [
+  { label: 'Day 0\u201314', boost: 3.0 },
+  { label: 'Day 15\u201328', boost: 2.5 },
+  { label: 'Day 29\u201342', boost: 2.0 },
+  { label: 'Day 43\u201356', boost: 1.5 },
+  { label: 'Day 57+', boost: 1.0 },
+] as const;
+
+// Exit fee taper schedule (starts 80%, tapers to 25% over 4 epochs)
+export const EXIT_FEE_SCHEDULE = [
+  { label: 'Day 0\u201314', fee: 0.80 },
+  { label: 'Day 15\u201328', fee: 0.6625 },
+  { label: 'Day 29\u201342', fee: 0.525 },
+  { label: 'Day 43\u201356', fee: 0.3875 },
+  { label: 'Day 57+', fee: 0.25 },
+] as const;
+
 // Default input values
 export const DEFAULT_INPUTS: SimulatorInputs = {
   userVkat: 100_000,
@@ -21,7 +39,7 @@ export const DEFAULT_INPUTS: SimulatorInputs = {
   katPrice: 0.10,
   churnRate: 0.15,
   avgExitFee: 0.80,
-  voteBoost: 1.0,
+  voteBoost: 3.0,
 };
 
 // Input constraints
@@ -35,7 +53,7 @@ export const INPUT_CONSTRAINTS = {
   katPrice: { min: 0.01, max: 0.50, step: 0.01 },
   churnRate: { min: 0.05, max: 0.50, step: 0.01 },
   avgExitFee: { min: 0.025, max: 0.80, step: 0.005 },
-  voteBoost: { min: 1.0, max: 5.0, step: 0.1 },
+  voteBoost: { min: 1.0, max: 3.0, step: 0.5 },
 } as const;
 
 /**

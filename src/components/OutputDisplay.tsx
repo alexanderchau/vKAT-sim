@@ -67,7 +67,7 @@ export function OutputDisplay({ outputs, userVkat, katPrice }: OutputDisplayProp
             </div>
           </div>
         </div>
-        <div className="mt-4 pt-4" style={{ borderTop: '1px solid rgba(74, 144, 217, 0.2)' }}>
+        <div className="mt-4 pt-4" style={{ borderTop: '1px solid rgba(201, 180, 78, 0.2)' }}>
           <div className="flex items-center justify-between text-sm">
             <span style={{ color: 'var(--text-muted)' }}>
               Based on <span className="font-mono font-medium" style={{ color: 'var(--text-secondary)' }}>{formatStaked(outputs.totalVkatStaked)}</span> vKAT staked
