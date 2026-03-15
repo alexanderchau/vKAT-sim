@@ -38,14 +38,14 @@ export const GUARANTEED_YIELD = {
   periodDays: 60,
 } as const;
 
-// Default input values (calibrated to LP brief: 110M FDV, $287.5K/mo protocol rev)
+// Default input values (calibrated to LP brief: 110M FDV, ~29 KAT/epoch per 1K staked)
 export const DEFAULT_INPUTS: SimulatorInputs = {
   userVkat: 1_000_000,
-  circulatingSupply: 2_000_000_000,
-  stakeRate: 0.30,
-  annualVolume: 1_700_000_000,
+  circulatingSupply: 1_000_000_000,
+  stakeRate: 0.35,
+  annualVolume: 500_000_000,
   avgFeeRate: 0.0005,
-  bribesPerEpoch: 200_000,
+  bribesPerEpoch: 10_000,
   katPrice: 0.011,
   churnRate: 0.15,
   avgExitFee: 0.80,
