@@ -80,7 +80,7 @@ function App() {
             <div className="card">
               <h3 className="section-title">Position Parameters</h3>
               <SliderInput
-                label="vKAT Holdings"
+                label="KAT Holdings"
                 value={inputs.userVkat}
                 onChange={(v) => updateInput('userVkat', v)}
                 {...INPUT_CONSTRAINTS.userVkat}
