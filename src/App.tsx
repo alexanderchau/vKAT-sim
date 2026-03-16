@@ -261,13 +261,6 @@ function App() {
               </div>
             </div>
 
-            {/* Yield per vKAT */}
-            <div className="info-panel">
-              <div className="flex justify-between items-center">
-                <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Annualized Yield per vKAT</span>
-                <span className="font-mono text-base font-semibold" style={{ color: 'var(--accent-primary)' }}>${outputs.yieldPerVkatUsd.toFixed(4)}</span>
-              </div>
-            </div>
 
             <Disclaimers />
           </div>
