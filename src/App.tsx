@@ -71,6 +71,20 @@ function App() {
         </div>
       </header>
 
+
+      {/* Pre-staking Guarantee */}
+      <div style={{ background: 'rgba(212, 160, 52, 0.05)', borderBottom: '1px solid rgba(212, 160, 52, 0.12)' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
+          <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--text-muted)' }}>
+            <span style={{ color: 'var(--warning)', opacity: 0.7, fontSize: '9px' }}>◆</span>
+            <span>
+              <span style={{ color: 'var(--text-secondary)' }}>Pre-staking guarantee:</span>
+              {' '}35% yield over the first 60 days on up to 350M KAT pre-staked — treasury tops up any shortfall in vKAT
+            </span>
+          </div>
+        </div>
+      </div>
+
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
