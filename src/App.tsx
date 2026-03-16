@@ -80,7 +80,7 @@ function App() {
             <div>
               <div className="text-base font-semibold" style={{ color: 'var(--warning)' }}>Pre-staking yield guarantee</div>
               <div className="text-sm mt-0.5" style={{ color: 'var(--text-secondary)' }}>
-                Guaranteed over the first 60 days on up to 350M KAT pre-staked — Katana tops up any shortfall
+                Guaranteed over the first 60 days on the first 350M KAT pre-staked
               </div>
             </div>
           </div>
