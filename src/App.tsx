@@ -73,15 +73,15 @@ function App() {
 
 
       {/* Pre-staking Guarantee */}
-      <div style={{ background: 'rgba(212, 160, 52, 0.1)', borderBottom: '1px solid rgba(212, 160, 52, 0.25)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center gap-4">
-            <span style={{ color: 'var(--warning)', fontSize: '14px', flexShrink: 0 }}>◆</span>
+      <div style={{ background: 'rgba(212, 160, 52, 0.12)', borderBottom: '1px solid rgba(212, 160, 52, 0.3)' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+          <div className="flex items-center gap-5">
+            <div className="text-4xl font-bold font-mono" style={{ color: 'var(--warning)', lineHeight: 1 }}>35%</div>
             <div>
-              <span className="text-base font-semibold" style={{ color: 'var(--warning)' }}>Pre-staking guarantee</span>
-              <span className="text-base" style={{ color: 'var(--text-secondary)' }}>
-                {' '}— 35% yield over the first 60 days on up to 350M KAT pre-staked — treasury tops up any shortfall
-              </span>
+              <div className="text-base font-semibold" style={{ color: 'var(--warning)' }}>Pre-staking yield guarantee</div>
+              <div className="text-sm mt-0.5" style={{ color: 'var(--text-secondary)' }}>
+                Guaranteed over the first 60 days on up to 350M KAT pre-staked — treasury tops up any shortfall
+              </div>
             </div>
           </div>
         </div>
